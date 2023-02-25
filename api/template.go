@@ -11,4 +11,6 @@ type Template struct {
 	BuildSH    string
 	Makefile   string
 	Dockerfile string
+	Proto      string
+	Session    string
 }

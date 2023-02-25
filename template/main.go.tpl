@@ -5,6 +5,7 @@ package main
 import (
 	"{{.Package.Name}}/config"
 	"{{.Package.Name}}/router"
+	"{{.Package.Name}}/svc"
 	"flag"
 	"fmt"
 	"os"
@@ -35,6 +36,6 @@ func main() {
 	}
 
 	r := gin.Default()
-	router.RegisterRouter(r)
+	router.RegisterRouter(r, svc.NewSvc(config))
 	r.Run(config.Listen)
 }

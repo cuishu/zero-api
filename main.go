@@ -34,6 +34,10 @@ var (
 	makefileTmpl string
 	//go:embed template/Dockerfile.gtpl
 	dockerfileTmpl string
+	//go:embed template/proto/proto.go.tpl
+	protoTmpl string
+	//go:embed template/svc/session.go.tpl
+	sessionTmpl string
 )
 
 var (
@@ -62,6 +66,14 @@ func init() {
 	}
 }
 
+func mkdirAll() {
+	os.MkdirAll("config", 0755)
+	os.MkdirAll("logic", 0755)
+	os.MkdirAll("router", 0755)
+	os.MkdirAll("svc", 0755)
+	os.MkdirAll("proto", 0755)
+}
+
 func main() {
 	spec, err := parser.Parse(filename)
 	if err != nil {
@@ -81,6 +93,10 @@ func main() {
 	apiSpec.Template.BuildSH = buildSHTmpl
 	apiSpec.Template.Makefile = makefileTmpl
 	apiSpec.Template.Dockerfile = dockerfileTmpl
+	apiSpec.Template.Proto = protoTmpl
+	apiSpec.Template.Session = sessionTmpl
+	mkdirAll()
 	apiSpec.Package.Set(packagename)
 	generator.GenerateCode(&apiSpec)
+	generator.GenerateProto(&apiSpec)
 }

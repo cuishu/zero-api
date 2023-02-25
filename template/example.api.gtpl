@@ -13,7 +13,7 @@ info (
 
 type (
 	// 请求参数的详细描述
-	addReq {
+	AddReq {
 		// 每个filed都需要有注释
 		Book  string `form:"book"`
 		Price int64  `form:"price"`
@@ -21,17 +21,17 @@ type (
 	}
 
 	// 返回值
-	addResp {
+	AddResp {
 		Ok bool `json:"ok"`
 	}
 )
 
 type (
-	checkReq {
+	CheckReq {
 		Book string `form:"book"`
 	}
 
-	checkResp {
+	CheckResp {
 		Found bool  `json:"found"`
 		Price int64 `json:"price"`
 	}
@@ -43,5 +43,5 @@ type (
 service {{.ShortName}} {
 	// 每个api的注释
 	@handler Add
-	get /add (addReq) returns (addResp)
+	get /add (AddReq) returns (AddResp)
 }

@@ -2,13 +2,10 @@ package logic
 
 import (
 	"{{.Package.Name}}/svc"
-	"time"
-
-	"github.com/gin-gonic/gin"
+	"{{.Package.Name}}/proto"
 )
 
-func {{.FuncName}}(sess *svc.Svc) gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		time.Sleep(time.Minute)
-	}
+func {{.FuncName}}(sess *svc.Session, input *proto.{{.Request}}) (*proto.{{.Response}}, error) {
+	var resp proto.{{.Response}}
+	return &resp, nil
 }

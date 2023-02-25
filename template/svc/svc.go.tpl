@@ -8,8 +8,8 @@ type Svc struct {
 	Config *config.Config
 }
 
-func NewSvc(conf *config.Config) *Svc {
-	return &Svc{
+func NewSvc(conf *config.Config) Svc {
+	return Svc{
 		Config: conf,
 	}
 }

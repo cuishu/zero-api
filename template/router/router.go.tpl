@@ -4,14 +4,46 @@ package router
 
 import (
 	"{{.Package.Name}}/logic"
+	"{{.Package.Name}}/proto"
 	"{{.Package.Name}}/svc"
+	"context"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRouter(r *gin.Engine) {
+func Fail(err error) gin.H {
+	return gin.H{
+		"fail": true,
+		"msg":  err.Error(),
+	}
+}
+
+func Success(data any) gin.H {
+	return gin.H{
+		"fail": false,
+		"data": data,
+	}
+}
+
+func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 	{{range .Route}}
 	{{.Doc}}
-	r.{{.Method}}("{{.Path}}", logic.{{.FuncName}}(&svc.Svc{}))
+	r.{{.Method}}("{{.Path}}", func(ctx *gin.Context) {
+		var input proto.{{.Request}}
+		if err := ctx.ShouldBind(&input); err != nil {
+			ctx.JSON(http.StatusBadRequest, Fail(err))
+			return
+		}
+		resp, err := logic.{{.FuncName}}(&svc.Session{
+			Svc: svctx,
+			Ctx: context.Background(),
+		}, &input)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, Fail(err))
+			return
+		}
+		ctx.JSON(http.StatusOK, Success(resp))
+	})
 	{{end}}
 }

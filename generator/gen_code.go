@@ -54,23 +54,13 @@ func genConfig(spec *api.Spec) {
 }
 
 func genLogic(spec *api.Spec) {
-	t, err := template.New("logic.go").Parse(spec.Template.Logic)
-	if err != nil {
-		panic(err)
-	}
 	for _, logic := range spec.Route {
 		filename := fmt.Sprintf("logic/%s.go", logic.FuncName)
 		if _, err := os.Stat(filename); err == nil {
 			continue
 		}
 		logic.Package = spec.Package
-		// file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0644)
-		// if err != nil {
-		// 	panic(err)
-		// }
-		if err := t.Execute(os.Stdout, logic); err != nil {
-			panic(err)
-		}
+		genFile(filename, spec.Template.Logic, logic)
 	}
 }
 
@@ -106,6 +96,10 @@ func genDockerFile(spec *api.Spec) {
 	genFile("Dockerfile", spec.Template.Dockerfile, spec)
 }
 
+func genSession(spec *api.Spec) {
+	genFileOverwrite("svc/session.go", spec.Template.Session, spec)
+}
+
 func GenerateCode(spec *api.Spec) {
 	genConfig(spec)
 	genLogic(spec)
@@ -117,6 +111,7 @@ func GenerateCode(spec *api.Spec) {
 	genMakefile(spec)
 	genVersion()
 	genDockerFile(spec)
+	genSession(spec)
 
 	cmd := exec.Command("go", "mod", "tidy")
 	cmd.Stdin = os.Stdin
