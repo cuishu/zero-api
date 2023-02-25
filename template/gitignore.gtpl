@@ -1,0 +1,2 @@
+config.yaml
+{{.Package.ShortName}}
