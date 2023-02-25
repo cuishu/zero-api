@@ -28,6 +28,12 @@ var (
 	mainTmpl string
 	//go:embed template/gitignore.gtpl
 	gitignoreTmpl string
+	//go:embed template/build.sh.gtpl
+	buildSHTmpl string
+	//go:embed template/Makefile.gtpl
+	makefileTmpl string
+	//go:embed template/Dockerfile.gtpl
+	dockerfileTmpl string
 )
 
 var (
@@ -72,6 +78,9 @@ func main() {
 	apiSpec.Template.Svc = svcTmpl
 	apiSpec.Template.Main = mainTmpl
 	apiSpec.Template.Gitignore = gitignoreTmpl
+	apiSpec.Template.BuildSH = buildSHTmpl
+	apiSpec.Template.Makefile = makefileTmpl
+	apiSpec.Template.Dockerfile = dockerfileTmpl
 	apiSpec.Package.Set(packagename)
 	generator.GenerateCode(&apiSpec)
 }

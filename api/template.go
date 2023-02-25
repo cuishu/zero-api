@@ -8,4 +8,7 @@ type Template struct {
 	Svc        string
 	Main       string
 	Gitignore  string
+	BuildSH    string
+	Makefile   string
+	Dockerfile string
 }

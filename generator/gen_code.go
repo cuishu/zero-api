@@ -3,6 +3,7 @@ package generator
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 	"text/template"
 
@@ -14,11 +15,11 @@ func genFileOverwrite(filename, tmpl string, spec any) {
 	if err != nil {
 		panic(err)
 	}
-	// file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	if err := t.Execute(os.Stdout, spec); err != nil {
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+	if err != nil {
+		panic(err)
+	}
+	if err := t.Execute(file, spec); err != nil {
 		panic(err)
 	}
 }
@@ -31,11 +32,11 @@ func genFile(filename, tmpl string, spec any) {
 	if err != nil {
 		panic(err)
 	}
-	// file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0644)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	if err := t.Execute(os.Stdout, spec); err != nil {
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
+	if err := t.Execute(file, spec); err != nil {
 		panic(err)
 	}
 }
@@ -89,6 +90,22 @@ func genMain(spec *api.Spec) {
 	genFileOverwrite("main.go", spec.Template.Main, spec)
 }
 
+func genBuildSH(spec *api.Spec) {
+	genFile("build.sh", spec.Template.BuildSH, spec)
+}
+
+func genMakefile(spec *api.Spec) {
+	genFile("Makefile", spec.Template.Makefile, spec)
+}
+
+func genVersion() {
+	genFile("VERSION", "v0.0.0", nil)
+}
+
+func genDockerFile(spec *api.Spec) {
+	genFile("Dockerfile", spec.Template.Dockerfile, spec)
+}
+
 func GenerateCode(spec *api.Spec) {
 	genConfig(spec)
 	genLogic(spec)
@@ -96,4 +113,14 @@ func GenerateCode(spec *api.Spec) {
 	genSvc(spec)
 	genGitignore(spec)
 	genMain(spec)
+	genBuildSH(spec)
+	genMakefile(spec)
+	genVersion()
+	genDockerFile(spec)
+
+	cmd := exec.Command("go", "mod", "tidy")
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Run()
 }
