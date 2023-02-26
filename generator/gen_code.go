@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"strings"
 	"text/template"
 
 	"github.com/cuishu/zero-api/api"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func genFileOverwrite(filename, tmpl string, spec any) {
@@ -43,7 +44,7 @@ func genFile(filename, tmpl string, spec any) {
 
 func GenAPI(tmpl string, pkg *api.Package) {
 	filename := fmt.Sprintf("%s.api", pkg.ShortName)
-	pkg.ShortName = strings.ToTitle(pkg.ShortName)
+	pkg.ShortName = cases.Title(language.English).String(pkg.ShortName)
 	genFile(filename, tmpl, pkg)
 }
 
