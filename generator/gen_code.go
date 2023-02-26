@@ -68,6 +68,10 @@ func genRouter(spec *api.Spec) {
 	genFileOverwrite("router/router.go", spec.Template.Router, spec)
 }
 
+func genMiddleware(spec *api.Spec) {
+	genFile("router/middleware.go", spec.Template.Middleware, spec)
+}
+
 func genSvc(spec *api.Spec) {
 	genFile("svc/svc.go", spec.Template.Svc, spec)
 }
@@ -103,6 +107,7 @@ func genSession(spec *api.Spec) {
 func GenerateCode(spec *api.Spec) {
 	genConfig(spec)
 	genLogic(spec)
+	genMiddleware(spec)
 	genRouter(spec)
 	genSvc(spec)
 	genGitignore(spec)

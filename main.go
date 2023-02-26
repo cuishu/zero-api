@@ -22,6 +22,8 @@ var (
 	logicTmpl string
 	//go:embed template/router/router.go.tpl
 	routerTmpl string
+	//go:embed template/router/middleware.go.tpl
+	middlewareTmpl string
 	//go:embed template/svc/svc.go.tpl
 	svcTmpl string
 	//go:embed template/main.go.tpl
@@ -87,6 +89,7 @@ func main() {
 	apiSpec.Template.ConfigYaml = configYaml
 	apiSpec.Template.Logic = logicTmpl
 	apiSpec.Template.Router = routerTmpl
+	apiSpec.Template.Middleware = middlewareTmpl
 	apiSpec.Template.Svc = svcTmpl
 	apiSpec.Template.Main = mainTmpl
 	apiSpec.Template.Gitignore = gitignoreTmpl

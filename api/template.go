@@ -5,6 +5,7 @@ type Template struct {
 	ConfigYaml string
 	Logic      string
 	Router     string
+	Middleware string
 	Svc        string
 	Main       string
 	Gitignore  string
