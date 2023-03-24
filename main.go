@@ -8,7 +8,7 @@ import (
 
 	"github.com/cuishu/zero-api/api"
 	"github.com/cuishu/zero-api/generator"
-	parser "github.com/zeromicro/go-zero/tools/goctl/api/parser"
+	"github.com/cuishu/zero-api/ast"
 )
 
 var (
@@ -77,10 +77,7 @@ func mkdirAll() {
 }
 
 func main() {
-	spec, err := parser.Parse(filename)
-	if err != nil {
-		panic(err)
-	}
+	spec := ast.Parse(filename)
 	if err := spec.Validate(); err != nil {
 		panic(err)
 	}
