@@ -18,7 +18,7 @@
 %option yylineno
 %x C_COMMENT
 
-name [-a-zA-Z\[\]]
+name [a-zA-Z\[\]0-9]
 email [-a-zA-Z0-9]+@[-a-zA-Z0-9]+\.[-a-zA-Z]+
 version v[0-9].[0-9].[0-9]
 tag `([0-9A-Za-z;:\",_-])+`
