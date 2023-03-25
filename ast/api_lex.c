@@ -1140,21 +1140,19 @@ YY_RULE_SETUP
     if (yylval.str) { free(yylval.str); }
     int len = strlen(yytext);
     yylval.str = malloc(len+6);
-    strncpy(yylval.str, "/*", 2);
-    strncpy(yylval.str+2, yytext, len);
-    strcpy(yylval.str+2+len, "*/");
+    sprintf(yylval.str, "/*%s*/", yytext);
     return COMMENT;
 }
 	YY_BREAK
 case YY_STATE_EOF(C_COMMENT):
-#line 95 "api.l"
+#line 93 "api.l"
 { fprintf(stderr, "%d: Unterminated comment\n",
                 yylineno); return 0; }
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 98 "api.l"
+#line 96 "api.l"
 {
     COPY(yylval.str, yytext);
     return COMMENT;
@@ -1163,22 +1161,22 @@ YY_RULE_SETUP
 case 26:
 /* rule 26 can match eol */
 YY_RULE_SETUP
-#line 103 "api.l"
+#line 101 "api.l"
 {}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 105 "api.l"
+#line 103 "api.l"
 {
     printf("error: illeagal character '%s'\n", yytext);
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 108 "api.l"
+#line 106 "api.l"
 ECHO;
 	YY_BREAK
-#line 1182 "api_lex.c"
+#line 1180 "api_lex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2195,7 +2193,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 108 "api.l"
+#line 106 "api.l"
 
 
 void yyerror(const char *msg) {

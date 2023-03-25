@@ -87,9 +87,7 @@ string \"(\\.|[:"])*\"
     if (yylval.str) { free(yylval.str); }
     int len = strlen(yytext);
     yylval.str = malloc(len+6);
-    strncpy(yylval.str, "/*", 2);
-    strncpy(yylval.str+2, yytext, len);
-    strcpy(yylval.str+2+len, "*/");
+    sprintf(yylval.str, "/*%s*/", yytext);
     return COMMENT;
 }
 <C_COMMENT><<EOF>>  { fprintf(stderr, "%d: Unterminated comment\n",
