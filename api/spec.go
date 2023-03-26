@@ -37,12 +37,13 @@ func (p *Package) Set(name string) {
 }
 
 type Spec struct {
-	Package  Package
-	Info     Info
-	ApiName  string
-	Types    []Type
-	Route    []Route
-	Template Template
+	Package               Package
+	Info                  Info
+	ApiName               string
+	Types                 []Type
+	Route                 []Route
+	Template              Template
+	ContainsMultipartFile bool
 }
 
 func ToSpec(spec *ast.Spec) Spec {
@@ -62,5 +63,6 @@ func ToSpec(spec *ast.Spec) Spec {
 			Method:   strings.ToUpper(item.Method),
 		})
 	}
+	ret.ContainsMultipartFile = containsMultipartFile
 	return ret
 }

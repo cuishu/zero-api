@@ -4,6 +4,8 @@ import (
 	"github.com/cuishu/zero-api/ast"
 )
 
+var containsMultipartFile = false
+
 type Field struct {
 	Name      string
 	Tag       string
@@ -19,10 +21,15 @@ type Type struct {
 }
 
 func memberToField(member ast.Field) Field {
+	t := member.Type
+	if member.Type == "file" {
+		t = "*multipart.FileHeader"
+		containsMultipartFile = true
+	}
 	return Field{
 		Name:      member.Name,
 		Tag:       member.Tag,
-		Type:      member.Type,
+		Type:      t,
 		Documents: member.Comment,
 	}
 }
