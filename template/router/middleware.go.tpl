@@ -1,7 +1,18 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	"test/svc"
 
-func middleware(r *gin.Engine) {
+	"github.com/gin-gonic/gin"
+)
 
+func logger(svc *svc.Svc) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		defer svc.Logger.Sync()
+		ctx.Next()
+	}
+}
+
+func middleware(svc *svc.Svc, r *gin.Engine) {
+	r.Use(logger(svc))
 }

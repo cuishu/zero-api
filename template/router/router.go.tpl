@@ -27,7 +27,7 @@ func Success(data any) gin.H {
 }
 
 func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
-	middleware(r)
+	middleware(&svctx, r)
 	{{range .Route}}
 	{{.Doc}}
 	r.{{.Method}}("{{.Path}}", func(ctx *gin.Context) {
