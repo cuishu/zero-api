@@ -11,13 +11,17 @@ type Svc struct {
 	Logger *zap.SugaredLogger
 }
 
-func NewSvc(conf *config.Config) Svc {
+func newLogger() *zap.SugaredLogger {
 	logger, err := zap.NewProduction()
 	if err != nil {
 		panic(err)
 	}
+	return logger.Sugar()
+}
+
+func NewSvc(conf *config.Config) Svc {
 	return Svc{
 		Config: conf,
-		Logger: logger.Sugar(),
+		Logger: newLogger(),
 	}
 }
