@@ -1,5 +1,5 @@
-/*
- 这里是 API 描述
+/**
+* 这里是 API 描述
 */
 
 info (
@@ -31,8 +31,8 @@ type CheckResp {
 	Price int64 `json:"price"`
 }
 
-/*
- service 需要有注释
+/**
+* service 需要有注释
 */
 service {{.ShortName}} {
 	// 每个api的注释
