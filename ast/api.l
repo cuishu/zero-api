@@ -81,17 +81,11 @@ string \"(\\.|[:"])*\"
     return TAG;
 }
 
-"/*"                { BEGIN(C_COMMENT); }
-<C_COMMENT>"*/"     { BEGIN(INITIAL); }
-<C_COMMENT>([^*]|\n)+|. {
-    if (yylval.str) { free(yylval.str); }
-    int len = strlen(yytext);
-    yylval.str = malloc(len+6);
-    sprintf(yylval.str, "/*%s*/", yytext);
+"/*"([^\*]|(\*)*[^\*/])*(\*)*"*/" {
+    fprintf(stderr, "%s\n", yytext);
+    COPY(yylval.str, yytext);
     return COMMENT;
 }
-<C_COMMENT><<EOF>>  { fprintf(stderr, "%d: Unterminated comment\n",
-                yylineno); return 0; }
 
 "//".*\n {
     COPY(yylval.str, yytext);
