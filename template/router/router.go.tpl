@@ -35,8 +35,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 		var input proto.{{.Request}}
 		{{if .ContainsMultipartFile}}
 		var params struct {
-			{{range .RequestFields}}
-			{{.Name}} {{if .IsFile}}*multipart.FileHeader{{else}}{{.Type}}{{end}} {{.Tag}}
+			{{range .RequestFields}}{{.Name}} {{if .IsFile}}*multipart.FileHeader{{else}}{{.Type}}{{end}} {{.Tag}}
 			{{end}}
 		}
 		if err := ctx.ShouldBind(&params); err != nil {
@@ -48,7 +47,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 			return
 		} else {
 			input.{{.Name}} = f
-		}
+		}{{else}}input.{{.Name}} = params.{{.Name}}
 		{{end}}{{end}}
 		{{else}}if err := ctx.ShouldBind(&input); err != nil {
 			ctx.JSON(http.StatusBadRequest, Fail(err))
