@@ -50,18 +50,24 @@ func ToSpec(spec *ast.Spec) Spec {
 	var ret Spec
 	ret.ApiName = spec.Service.Name
 	ret.Info = toInfo(spec.Info)
+	var symbleMap map[string]Type = make(map[string]Type)
 	for _, item := range spec.Types {
-		ret.Types = append(ret.Types, convertSpecType(item))
+		t := convertSpecType(item)
+		ret.Types = append(ret.Types, t)
+		symbleMap[item.Name] = t
 	}
 	for _, item := range spec.Service.Apis {
-		ret.Route = append(ret.Route, Route{
-			FuncName: item.Handler,
-			Request:  item.Input,
-			Response: item.Output,
-			Path:     item.URI,
-			Doc:      item.Comment,
-			Method:   strings.ToUpper(item.Method),
-		})
+		route := Route{
+			FuncName:      item.Handler,
+			Request:       item.Input,
+			RequestFields: symbleMap[item.Input].Fields,
+			Response:      item.Output,
+			Path:          item.URI,
+			Doc:           item.Comment,
+			Method:        strings.ToUpper(item.Method),
+		}
+		route.Check()
+		ret.Route = append(ret.Route, route)
 	}
 	ret.ContainsMultipartFile = containsMultipartFile
 	return ret

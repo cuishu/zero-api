@@ -10,6 +10,7 @@ type Field struct {
 	Name      string
 	Tag       string
 	Type      string
+	IsFile    bool
 	Documents string
 }
 
@@ -22,15 +23,18 @@ type Type struct {
 
 func memberToField(member ast.Field) Field {
 	t := member.Type
+	var isFile bool
 	if member.Type == "file" {
-		t = "*multipart.FileHeader"
+		t = "multipart.File"
 		containsMultipartFile = true
+		isFile = true
 	}
 	return Field{
 		Name:      member.Name,
 		Tag:       member.Tag,
 		Type:      t,
 		Documents: member.Comment,
+		IsFile:    isFile,
 	}
 }
 

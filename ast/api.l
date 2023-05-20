@@ -82,7 +82,6 @@ string \"(\\.|[:"])*\"
 }
 
 "/*"([^\*]|(\*)*[^\*/])*(\*)*"*/" {
-    fprintf(stderr, "%s\n", yytext);
     COPY(yylval.str, yytext);
     return COMMENT;
 }

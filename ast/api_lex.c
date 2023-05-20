@@ -1125,7 +1125,7 @@ case 22:
 YY_RULE_SETUP
 #line 84 "api.l"
 {
-    fprintf(stderr, "%s\n", yytext);
+    // fprintf(stderr, "%s\n", yytext);
     COPY(yylval.str, yytext);
     return COMMENT;
 }

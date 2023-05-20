@@ -1,7 +1,7 @@
 package router
 
 import (
-	"test/svc"
+	"{{.Package.Name}}/svc"
 
 	"github.com/gin-gonic/gin"
 )

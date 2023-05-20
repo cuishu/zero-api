@@ -7,6 +7,7 @@ import (
 	"{{.Package.Name}}/proto"
 	"{{.Package.Name}}/svc"
 	"context"
+	{{if .ContainsMultipartFile}}"mime/multipart"{{else}}{{end}}
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -32,10 +33,28 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 	{{.Doc}}
 	r.{{.Method}}("{{.Path}}", func(ctx *gin.Context) {
 		var input proto.{{.Request}}
-		if err := ctx.ShouldBind(&input); err != nil {
+		{{if .ContainsMultipartFile}}
+		var params struct {
+			{{range .RequestFields}}
+			{{.Name}} {{if .IsFile}}*multipart.FileHeader{{else}}{{.Type}}{{end}} {{.Tag}}
+			{{end}}
+		}
+		if err := ctx.ShouldBind(&params); err != nil {
 			ctx.JSON(http.StatusBadRequest, Fail(err))
 			return
 		}
+		{{range .RequestFields}}{{if .IsFile}}if f, err := params.{{.Name}}.Open(); err != nil {
+			ctx.JSON(http.StatusBadRequest, Fail(err))
+			return
+		} else {
+			input.{{.Name}} = f
+		}
+		{{end}}{{end}}
+		{{else}}if err := ctx.ShouldBind(&input); err != nil {
+			ctx.JSON(http.StatusBadRequest, Fail(err))
+			return
+		}
+		{{end}}
 		resp, err := logic.{{.FuncName}}(&svc.Session{
 			Svc: svctx,
 			Ctx: context.Background(),
