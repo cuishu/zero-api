@@ -4,11 +4,12 @@ import (
 	_ "embed"
 	"flag"
 	"os"
+	"os/user"
 	"strings"
 
 	"github.com/cuishu/zero-api/api"
-	"github.com/cuishu/zero-api/generator"
 	"github.com/cuishu/zero-api/ast"
+	"github.com/cuishu/zero-api/generator"
 )
 
 var (
@@ -62,6 +63,11 @@ func init() {
 	slice = strings.Split(slice[0], " ")
 	packagename = slice[len(slice)-1]
 	if genExample {
+		user, err := user.Current()
+		if err != nil {
+			panic(err.Error())
+		}
+		pkg.CurrentUser = user.Username
 		pkg.Set(packagename)
 		generator.GenAPI(exampleTemplate, &pkg)
 		os.Exit(0)

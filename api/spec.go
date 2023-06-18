@@ -26,8 +26,9 @@ func toInfo(props ast.Info) Info {
 }
 
 type Package struct {
-	Name      string
-	ShortName string
+	CurrentUser string
+	Name        string
+	ShortName   string
 }
 
 func (p *Package) Set(name string) {

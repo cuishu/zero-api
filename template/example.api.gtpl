@@ -3,7 +3,7 @@
 */
 
 info (
-	author: cuishu
+	author: {{.CurrentUser}}
 	email: required@mail.com
 	version: v1.0.0
 )
