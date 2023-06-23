@@ -13,9 +13,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const ApiVersion string = "{{.Info.Version}}"
+
 var (
-	BuildTime string
-	Version   string
+	BuildTime  string
+	Version    string
 )
 
 func init() {
@@ -24,6 +26,7 @@ func init() {
 	flag.Parse()
 	if showVersion {
 		fmt.Println("version: ", Version)
+		fmt.Println("api vers:", ApiVersion)
 		fmt.Println("build at:", BuildTime)
 		os.Exit(0)
 	}

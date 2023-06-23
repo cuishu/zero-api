@@ -171,4 +171,5 @@ void yyerror(const char *msg) {
         fprintf(stderr, "^");
     }
     fprintf(stderr, "\033[0m");
+    exit(-1);
 }
