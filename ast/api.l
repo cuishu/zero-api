@@ -15,7 +15,7 @@ struct syntax_info {
 };
 
 extern char* filename;
-static struct syntax_info syntax_info = {.line_no = 0, .column = 1, .line = {0}};
+static struct syntax_info syntax_info = {.line_no = 0, .column = 1, .column_offset = 0,  .line = {0}};
 
 #define YY_INPUT(buf,result,max_size) \
     { \
