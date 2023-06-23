@@ -699,15 +699,58 @@ char *yytext;
 #include "ast.h"
 #include "api.tab.h"
 
+#define LINE_SIZE   (1024*64)
+
+struct syntax_info {
+    int line_no;
+    int column;
+    int column_offset;
+    char line[LINE_SIZE];
+};
+
+extern char* filename;
+static struct syntax_info syntax_info = {.line_no = 0, .column = 1, .line = {0}};
+
+#define YY_INPUT(buf,result,max_size) \
+    { \
+        int c = '*'; \
+        int n; \
+        for ( n = 0; n < max_size && \
+             (c = getc( yyin )) != EOF && c != '\n'; ++n ) { \
+            buf[n] = (char) c; \
+        } \
+        if ( c == '\n' ) { \
+            buf[n++] = (char) c; \
+            syntax_info.line_no ++; \
+            syntax_info.column = 1; \
+            syntax_info.column_offset = 0; \
+            strncpy(syntax_info.line, buf, LINE_SIZE);\
+            syntax_info.line[n] = '\0'; \
+        } \
+        if ( c == EOF && ferror( yyin ) ) \
+            YY_FATAL_ERROR( "input in flex scanner failed" ); \
+            result = n; \
+        }
+
+#define HANDLE_COLUMN(str)                         \
+    if (str!=NULL && *str == '\t') {               \
+        syntax_info.column += 1;                   \
+        syntax_info.column_offset+=8;              \
+    } else if (str != NULL) {                      \
+        int n = strlen(str);                       \
+        syntax_info.column += n;                   \
+        syntax_info.column_offset += n;            \
+    }
+
 #define COPY(dist, src) do {        \
     if (dist) { free(dist); }       \
     dist = malloc(strlen(src)+1);   \
     strcpy(dist, src);              \
 } while(0)
 
-#line 709 "api_lex.c"
+#line 752 "api_lex.c"
 
-#line 711 "api_lex.c"
+#line 754 "api_lex.c"
 
 #define INITIAL 0
 #define C_COMMENT 1
@@ -925,9 +968,9 @@ YY_DECL
 		}
 
 	{
-#line 28 "api.l"
+#line 71 "api.l"
 
-#line 931 "api_lex.c"
+#line 974 "api_lex.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -996,126 +1039,133 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 29 "api.l"
-{ return INFO; }
+#line 72 "api.l"
+{ HANDLE_COLUMN(yytext); return INFO; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 30 "api.l"
-{ return AUTHOR; }
+#line 73 "api.l"
+{ HANDLE_COLUMN(yytext); return AUTHOR; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 31 "api.l"
-{ return EMAIL; }
+#line 74 "api.l"
+{ HANDLE_COLUMN(yytext); return EMAIL; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 33 "api.l"
+#line 76 "api.l"
 {
+    HANDLE_COLUMN(yytext);
     COPY(yylval.str, yytext);
     return EMAIL_ADDR;
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 38 "api.l"
+#line 82 "api.l"
 {
+    HANDLE_COLUMN(yytext);
     COPY(yylval.str, yytext);
     return VERSION_VAL;
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 43 "api.l"
+#line 88 "api.l"
 {
+    HANDLE_COLUMN(yytext);
     COPY(yylval.str, yytext);
     return URI;
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 48 "api.l"
-{ return VERSION; }
+#line 94 "api.l"
+{ HANDLE_COLUMN(yytext); return VERSION; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 49 "api.l"
-{ return TYPE; }
+#line 95 "api.l"
+{ HANDLE_COLUMN(yytext); return TYPE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 50 "api.l"
-{ return SERVICE; }
+#line 96 "api.l"
+{ HANDLE_COLUMN(yytext); return SERVICE; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 52 "api.l"
+#line 98 "api.l"
 {
+    HANDLE_COLUMN(yytext);
     COPY(yylval.str, yytext);
     return METHOD;
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 56 "api.l"
-{ return HANDLER; }
+#line 103 "api.l"
+{ HANDLE_COLUMN(yytext); return HANDLER; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 57 "api.l"
-{ return RETURN; }
+#line 104 "api.l"
+{ HANDLE_COLUMN(yytext); return RETURN; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 58 "api.l"
-{ return RETURN; }
+#line 105 "api.l"
+{ HANDLE_COLUMN(yytext); return RETURN; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 60 "api.l"
+#line 107 "api.l"
 {
+    HANDLE_COLUMN(yytext);
     COPY(yylval.str, yytext);
     return NAME;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 65 "api.l"
-{ return OPEN_BRACE; }
+#line 113 "api.l"
+{ HANDLE_COLUMN(yytext); return OPEN_BRACE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 66 "api.l"
-{ return CLOSE_BRACE; }
+#line 114 "api.l"
+{ HANDLE_COLUMN(yytext); return CLOSE_BRACE; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 68 "api.l"
-{ return OPEN_PAREN; }
+#line 116 "api.l"
+{ HANDLE_COLUMN(yytext); return OPEN_PAREN; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 69 "api.l"
-{ return CLOSE_PAREN; }
+#line 117 "api.l"
+{ HANDLE_COLUMN(yytext); return CLOSE_PAREN; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 71 "api.l"
-{ return COLON; }
+#line 119 "api.l"
+{ HANDLE_COLUMN(yytext); return COLON; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 74 "api.l"
+#line 122 "api.l"
 {
+    HANDLE_COLUMN(yytext);
     COPY(yylval.str, yytext);
     return STRING;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 79 "api.l"
+#line 128 "api.l"
 {
+    HANDLE_COLUMN(yytext);
     COPY(yylval.str, yytext);
     return TAG;
 }
@@ -1123,9 +1173,8 @@ YY_RULE_SETUP
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 84 "api.l"
+#line 134 "api.l"
 {
-    // fprintf(stderr, "%s\n", yytext);
     COPY(yylval.str, yytext);
     return COMMENT;
 }
@@ -1133,7 +1182,7 @@ YY_RULE_SETUP
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 90 "api.l"
+#line 139 "api.l"
 {
     COPY(yylval.str, yytext);
     return COMMENT;
@@ -1142,22 +1191,31 @@ YY_RULE_SETUP
 case 24:
 /* rule 24 can match eol */
 YY_RULE_SETUP
-#line 95 "api.l"
-{}
+#line 144 "api.l"
+{ HANDLE_COLUMN(yytext); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 97 "api.l"
+#line 146 "api.l"
 {
     printf("error: illeagal character '%s'\n", yytext);
+    fprintf(stderr, "line %d column %d\n", syntax_info.line_no, syntax_info.column);
+    fprintf(stderr, "%s", syntax_info.line);
+    int wordlen = strlen(yytext);
+    for (int i=0; i < syntax_info.column_offset - wordlen+1; ++i) {
+        fprintf(stderr, "\033[32m_\033[0m");
+    }
+    for (int i = 0; i < wordlen; ++i) {
+        fprintf(stderr, "\033[31m^\n\033[0m");
+    }
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 100 "api.l"
+#line 158 "api.l"
 ECHO;
 	YY_BREAK
-#line 1161 "api_lex.c"
+#line 1219 "api_lex.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(C_COMMENT):
 	yyterminate();
@@ -2175,9 +2233,21 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 100 "api.l"
+#line 158 "api.l"
 
 
 void yyerror(const char *msg) {
-    fprintf(stderr, "error: %s %s\n", yytext, msg);
+    int wordlen = strlen(yytext);
+    fprintf(stderr, "\033[31m%s\033[0m: %s\n", msg, filename);
+    fprintf(stderr, "line %d column %d\n",
+        syntax_info.line_no, syntax_info.column - wordlen);
+    fprintf(stderr, "%s", syntax_info.line);
+    for (int i=0; i < syntax_info.column_offset - wordlen; ++i) {
+        fprintf(stderr, "\033[32m_\033[0m");
+    }
+    fprintf(stderr, "\033[31m");
+    for (int i = 0; i < wordlen; ++i) {
+        fprintf(stderr, "^");
+    }
+    fprintf(stderr, "\033[0m");
 }

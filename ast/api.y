@@ -5,6 +5,7 @@
     #include "ast.h"
 
     extern FILE *yyin;
+    char* filename = NULL;
     static struct ast ast;
     static char* comment;
     static inline struct type* current_type() {
@@ -186,12 +187,13 @@ handler: NAME {
     ;
 %%
 
-struct ast* yyparser(char* filename)
+struct ast* yyparser(char* fname)
 {
-    if (!(yyin = fopen(filename, "r"))) {
-        fprintf(stderr, filename);
+    if (!(yyin = fopen(fname, "r"))) {
+        fprintf(stderr, fname);
         return NULL;
     }
+    filename = fname;
     comment = NULL;
     INIT_LIST_HEAD(&ast.types);
     INIT_LIST_HEAD(&ast.service.apis);

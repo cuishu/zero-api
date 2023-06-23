@@ -75,6 +75,7 @@
     #include "ast.h"
 
     extern FILE *yyin;
+    char* filename = NULL;
     static struct ast ast;
     static char* comment;
     static inline struct type* current_type() {
@@ -121,7 +122,7 @@
         return getobj(node->next, struct api, node);
     }
 
-#line 125 "api.tab.c"
+#line 126 "api.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -577,9 +578,9 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    64,    64,    65,    66,    67,    68,    80,    84,    80,
-      94,    95,    96,    98,   100,   106,   113,   125,   132,   143,
-     150,   151,   152,   153,   155,   161,   167,   173,   178
+       0,    65,    65,    66,    67,    68,    69,    81,    85,    81,
+      95,    96,    97,    99,   101,   107,   114,   126,   133,   144,
+     151,   152,   153,   154,   156,   162,   168,   174,   179
 };
 #endif
 
@@ -1183,7 +1184,7 @@ yyreduce:
   switch (yyn)
     {
   case 6: /* stmt: stmt COMMENT  */
-#line 68 "api.y"
+#line 69 "api.y"
                    {
         if (comment) { free(comment); }
         comment = yylval.str;
@@ -1193,58 +1194,58 @@ yyreduce:
             comment = NULL;
         }
     }
-#line 1197 "api.tab.c"
+#line 1198 "api.tab.c"
     break;
 
   case 7: /* $@1: %empty  */
-#line 80 "api.y"
+#line 81 "api.y"
                       {
         ast.info.author = yylval.str;
         yylval.str = NULL;
     }
-#line 1206 "api.tab.c"
+#line 1207 "api.tab.c"
     break;
 
   case 8: /* $@2: %empty  */
-#line 84 "api.y"
+#line 85 "api.y"
                            {
         ast.info.email = yylval.str;
         yylval.str = NULL;
     }
-#line 1215 "api.tab.c"
+#line 1216 "api.tab.c"
     break;
 
   case 9: /* info: AUTHOR COLON NAME $@1 EMAIL COLON EMAIL_ADDR $@2 VERSION COLON VERSION_VAL  */
-#line 88 "api.y"
+#line 89 "api.y"
                               {
         ast.info.version = yylval.str;
         yylval.str = NULL;
     }
-#line 1224 "api.tab.c"
+#line 1225 "api.tab.c"
     break;
 
   case 14: /* comment: COMMENT  */
-#line 100 "api.y"
+#line 101 "api.y"
                  {
         if (comment) { free(comment); }
         comment = yylval.str;
         yylval.str = NULL;
     }
-#line 1234 "api.tab.c"
+#line 1235 "api.tab.c"
     break;
 
   case 15: /* field_tag: TAG  */
-#line 106 "api.y"
+#line 107 "api.y"
                {
         struct field* field = current_field();
         field->tag = yylval.str;
         yylval.str = NULL;
     }
-#line 1244 "api.tab.c"
+#line 1245 "api.tab.c"
     break;
 
   case 16: /* field_name: NAME  */
-#line 113 "api.y"
+#line 114 "api.y"
                  {
         struct type* type = current_type();
         if (type) {
@@ -1256,21 +1257,21 @@ yyreduce:
             list_append(&field->node, &type->fields);
         }
     }
-#line 1260 "api.tab.c"
+#line 1261 "api.tab.c"
     break;
 
   case 17: /* field_type: NAME  */
-#line 125 "api.y"
+#line 126 "api.y"
                  {
         struct field* field = current_field();
         field->type = yyval.str;
         yylval.str = NULL;
     }
-#line 1270 "api.tab.c"
+#line 1271 "api.tab.c"
     break;
 
   case 18: /* type_name: NAME  */
-#line 132 "api.y"
+#line 133 "api.y"
                 {
         struct type* type = malloc(sizeof(*type));
         INIT_LIST_HEAD(&type->fields);
@@ -1280,62 +1281,62 @@ yyreduce:
         type->name = yylval.str;
         yylval.str = NULL;
     }
-#line 1284 "api.tab.c"
+#line 1285 "api.tab.c"
     break;
 
   case 19: /* service_name: NAME  */
-#line 143 "api.y"
+#line 144 "api.y"
                    {
         ast.service.comment = comment;
         ast.service.name = yylval.str;
         comment = NULL;
         yylval.str = NULL;
     }
-#line 1295 "api.tab.c"
+#line 1296 "api.tab.c"
     break;
 
   case 24: /* method: METHOD  */
-#line 155 "api.y"
+#line 156 "api.y"
                {
         struct api* api = current_api();
         api->method = yylval.str;
         yylval.str = NULL;
     }
-#line 1305 "api.tab.c"
+#line 1306 "api.tab.c"
     break;
 
   case 25: /* uri: URI  */
-#line 161 "api.y"
+#line 162 "api.y"
          {
         struct api* api = current_api();
         api->uri = yylval.str;
         yylval.str = NULL;
     }
-#line 1315 "api.tab.c"
+#line 1316 "api.tab.c"
     break;
 
   case 26: /* params: NAME  */
-#line 167 "api.y"
+#line 168 "api.y"
              {
         struct api* api = current_api();
         api->input = yylval.str;
         yylval.str = NULL;
     }
-#line 1325 "api.tab.c"
+#line 1326 "api.tab.c"
     break;
 
   case 27: /* ret: NAME  */
-#line 173 "api.y"
+#line 174 "api.y"
            {
         struct api* api = current_api();
         api->output = yylval.str;
         yylval.str = NULL;
     }
-#line 1335 "api.tab.c"
+#line 1336 "api.tab.c"
     break;
 
   case 28: /* handler: NAME  */
-#line 178 "api.y"
+#line 179 "api.y"
               {
         struct api* api = malloc(sizeof(*api));
         api->comment = comment;
@@ -1344,11 +1345,11 @@ yyreduce:
         yylval.str = NULL;
         list_append(&api->node, &ast.service.apis);
     }
-#line 1348 "api.tab.c"
+#line 1349 "api.tab.c"
     break;
 
 
-#line 1352 "api.tab.c"
+#line 1353 "api.tab.c"
 
       default: break;
     }
@@ -1542,15 +1543,16 @@ yyreturn:
   return yyresult;
 }
 
-#line 187 "api.y"
+#line 188 "api.y"
 
 
-struct ast* yyparser(char* filename)
+struct ast* yyparser(char* fname)
 {
-    if (!(yyin = fopen(filename, "r"))) {
-        fprintf(stderr, filename);
+    if (!(yyin = fopen(fname, "r"))) {
+        fprintf(stderr, fname);
         return NULL;
     }
+    filename = fname;
     comment = NULL;
     INIT_LIST_HEAD(&ast.types);
     INIT_LIST_HEAD(&ast.service.apis);
