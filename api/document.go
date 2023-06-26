@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/cuishu/functools"
@@ -53,7 +52,6 @@ func NewDocument(spec *ast.Spec) Document {
 						vali = strings.Trim(slice[1], `"`)
 					}
 				}
-				fmt.Println("param")
 				return DocParams{
 					Name:     name,
 					Type:     field.Type,
@@ -82,6 +80,5 @@ func NewDocument(spec *ast.Spec) Document {
 			}, symbleMap[a.Output].Fields),
 		}
 	}, spec.Service.Apis)
-	fmt.Println(document.Apis[0].Params)
 	return document
 }
