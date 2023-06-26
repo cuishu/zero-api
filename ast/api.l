@@ -64,7 +64,7 @@ static struct syntax_info syntax_info = {.line_no = 0, .column = 1, .column_offs
 name [a-zA-Z\[\]0-9]
 email [-a-zA-Z0-9]+@[-a-zA-Z0-9]+\.[-a-zA-Z]+
 version v[0-9].[0-9].[0-9]
-tag `([0-9A-Za-z;:\",_-])+`
+tag `([0-9A-Za-z;:\", _-])+`
 uri \/([0-9A-Za-z\/_-])+
 string \"(\\.|[:"])*\"
 

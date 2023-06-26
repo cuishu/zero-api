@@ -13,10 +13,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const ApiVersion string = "{{.Info.Version}}"
+
 func Fail(err error) gin.H {
 	return gin.H{
 		"fail": true,
 		"msg":  err.Error(),
+		"v": ApiVersion,
 	}
 }
 
@@ -24,6 +27,7 @@ func Success(data any) gin.H {
 	return gin.H{
 		"fail": false,
 		"data": data,
+		"v": ApiVersion,
 	}
 }
 

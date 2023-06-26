@@ -1,2 +1,4 @@
+github.com/cuishu/functools v0.0.0-20221026004008-beb9b9c0e338 h1:MIs3Qk6XOQX6I2ugvmri6gEdsN9Ss0IE5kJGVsJV6bo=
+github.com/cuishu/functools v0.0.0-20221026004008-beb9b9c0e338/go.mod h1:L+yg4uu+GXqiH05ltA2CuS+SAhMRW4JyRrrNZO8Y2Uo=
 golang.org/x/text v0.3.7 h1:olpwvP2KacW1ZWvsR7uQhoyTYvKAupfQrRGBFM352Gk=
 golang.org/x/text v0.3.7/go.mod h1:u+2+/6zg+i71rQMx5EYifcz6MCKuco9NR6JIITiCfzQ=

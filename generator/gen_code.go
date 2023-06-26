@@ -105,6 +105,10 @@ func genSession(spec *api.Spec) {
 	genFileOverwrite("svc/session.go", spec.Template.Session, spec)
 }
 
+func genApiDoc(spec *api.Spec) {
+	genFileOverwrite("doc/api.md", spec.Template.DocAPI, spec.Docs)
+}
+
 func GenerateCode(spec *api.Spec) {
 	genConfig(spec)
 	genLogic(spec)
@@ -118,6 +122,7 @@ func GenerateCode(spec *api.Spec) {
 	genVersion()
 	genDockerFile(spec)
 	genSession(spec)
+	genApiDoc(spec)
 
 	cmd := exec.Command("go", "mod", "tidy")
 	cmd.Stdin = os.Stdin

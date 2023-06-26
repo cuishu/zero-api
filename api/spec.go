@@ -39,19 +39,23 @@ func (p *Package) Set(name string) {
 
 type Spec struct {
 	Package               Package
+	Document              string
 	Info                  Info
 	ApiName               string
 	Types                 []Type
 	Route                 []Route
 	Template              Template
 	ContainsMultipartFile bool
+	Docs                  Document
 }
+
+var symbleMap map[string]Type = make(map[string]Type)
 
 func ToSpec(spec *ast.Spec) Spec {
 	var ret Spec
 	ret.ApiName = spec.Service.Name
+	ret.Document = spec.Comment
 	ret.Info = toInfo(spec.Info)
-	var symbleMap map[string]Type = make(map[string]Type)
 	for _, item := range spec.Types {
 		t := convertSpecType(item)
 		ret.Types = append(ret.Types, t)
@@ -59,17 +63,19 @@ func ToSpec(spec *ast.Spec) Spec {
 	}
 	for _, item := range spec.Service.Apis {
 		route := Route{
-			FuncName:      item.Handler,
-			Request:       item.Input,
-			RequestFields: symbleMap[item.Input].Fields,
-			Response:      item.Output,
-			Path:          item.URI,
-			Doc:           item.Comment,
-			Method:        strings.ToUpper(item.Method),
+			FuncName:       item.Handler,
+			Request:        item.Input,
+			RequestFields:  symbleMap[item.Input].Fields,
+			Response:       item.Output,
+			ResponseFields: symbleMap[item.Output].Fields,
+			Path:           item.URI,
+			Doc:            item.Comment,
+			Method:         strings.ToUpper(item.Method),
 		}
 		route.Check()
 		ret.Route = append(ret.Route, route)
 	}
+	ret.Docs = NewDocument(spec)
 	ret.ContainsMultipartFile = containsMultipartFile
 	return ret
 }

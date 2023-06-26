@@ -41,6 +41,8 @@ var (
 	protoTmpl string
 	//go:embed template/svc/session.go.tpl
 	sessionTmpl string
+	//go:embed template/doc/api.md.gtpl
+	docAPITmpl string
 )
 
 var (
@@ -80,6 +82,7 @@ func mkdirAll() {
 	os.MkdirAll("router", 0755)
 	os.MkdirAll("svc", 0755)
 	os.MkdirAll("proto", 0755)
+	os.MkdirAll("doc", 0755)
 }
 
 func main() {
@@ -101,6 +104,7 @@ func main() {
 	apiSpec.Template.Dockerfile = dockerfileTmpl
 	apiSpec.Template.Proto = protoTmpl
 	apiSpec.Template.Session = sessionTmpl
+	apiSpec.Template.DocAPI = docAPITmpl
 	mkdirAll()
 	apiSpec.Package.Set(packagename)
 	generator.GenerateCode(&apiSpec)

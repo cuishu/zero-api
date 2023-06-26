@@ -14,4 +14,5 @@ type Template struct {
 	Dockerfile string
 	Proto      string
 	Session    string
+	DocAPI     string
 }
