@@ -146,7 +146,7 @@ type Student {
     Name string `json:"name"`
 }
 ```
-数据类型的定义和 go struct 定义类似，只是缺少了 struct 关键字, 是为了和 protobuf 的语法兼容，减少开发者的困扰
+数据类型的定义和 go struct 定义类似，只是缺少了 struct 关键字, 是因为只打算支持这一种数据类型，没有扩充的打算
 
 
 #### Service
