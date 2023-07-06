@@ -61,7 +61,11 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	slice := strings.Split(string(data), "\n")
+	slice := strings.Split(
+		strings.ReplaceAll(
+			strings.ReplaceAll(string(data), "\r\n", "\n"),
+			"\r", "\n"),
+		"\n")
 	slice = strings.Split(slice[0], " ")
 	packagename = slice[len(slice)-1]
 	if genExample {
@@ -73,6 +77,9 @@ func init() {
 		pkg.Set(packagename)
 		generator.GenAPI(exampleTemplate, &pkg)
 		os.Exit(0)
+	}
+	if filename == "" {
+		return
 	}
 }
 
@@ -87,6 +94,9 @@ func mkdirAll() {
 
 func main() {
 	spec := ast.Parse(filename)
+	if spec == nil {
+		return
+	}
 	if err := spec.Validate(); err != nil {
 		panic(err)
 	}
