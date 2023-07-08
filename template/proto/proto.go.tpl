@@ -2,7 +2,18 @@
 
 package proto
 
-{{if .ContainsMultipartFile}}import "mime/multipart"{{else}}{{end}}
+{{if .ContainsMultipartFile}}import (
+	"mime/multipart"
+	"net/textproto"
+){{else}}{{end}}
+{{if .ContainsMultipartFile}}
+type File struct {
+	Filename string
+	Header   textproto.MIMEHeader
+	Size     int64
+	File     multipart.File
+}
+{{else}}{{end}}
 {{range .Types}}
 {{.Documents}}
 type {{.Name}} struct {

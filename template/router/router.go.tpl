@@ -7,7 +7,8 @@ import (
 	"{{.Package.Name}}/proto"
 	"{{.Package.Name}}/svc"
 	"context"
-	{{if .ContainsMultipartFile}}"mime/multipart"{{else}}{{end}}
+	{{if .ContainsMultipartFile}}"mime/multipart"
+	"errors"{{else}}{{end}}
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -46,12 +47,20 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 			ctx.JSON(http.StatusBadRequest, Fail(err))
 			return
 		}
-		{{range .RequestFields}}{{if .IsFile}}if f, err := params.{{.Name}}.Open(); err != nil {
+		{{range .RequestFields}}{{if .IsFile}}if params.{{.Name}} == nil {
+			ctx.JSON(http.StatusBadRequest, Fail(errors.New("{{.Name}} is nil")))
+			return
+		}
+		if f, err := params.{{.Name}}.Open(); err != nil {
 			ctx.JSON(http.StatusBadRequest, Fail(err))
 			return
 		} else {
-			input.{{.Name}} = f
-		}{{else}}input.{{.Name}} = params.{{.Name}}
+			input.{{.Name}}.Filename = params.{{.Name}}.Filename
+			input.{{.Name}}.Header = params.{{.Name}}.Header
+			input.{{.Name}}.Size = params.{{.Name}}.Size
+			input.{{.Name}}.File = f
+		}{{else}}
+		input.{{.Name}} = params.{{.Name}}
 		{{end}}{{end}}
 		{{else}}if err := ctx.ShouldBind(&input); err != nil {
 			ctx.JSON(http.StatusBadRequest, Fail(err))

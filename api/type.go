@@ -25,7 +25,7 @@ func memberToField(member ast.Field) Field {
 	t := member.Type
 	var isFile bool
 	if member.Type == "file" {
-		t = "multipart.File"
+		t = "File"
 		containsMultipartFile = true
 		isFile = true
 	}
