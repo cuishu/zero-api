@@ -46,6 +46,7 @@ type Spec struct {
 	Route                 []Route
 	Template              Template
 	ContainsMultipartFile bool
+	ContainsFile          bool
 	Docs                  Document
 }
 
@@ -62,12 +63,20 @@ func ToSpec(spec *ast.Spec) Spec {
 		symbleMap[item.Name] = t
 	}
 	for _, item := range spec.Service.Apis {
+		input := symbleMap[item.Input]
+		if input.HasFile {
+			inputContainsMultipartFile = true
+		}
+		output := symbleMap[item.Output]
+		if output.HasFile {
+			outputContainsMultipartFile = true
+		}
 		route := Route{
 			FuncName:       item.Handler,
 			Request:        item.Input,
-			RequestFields:  symbleMap[item.Input].Fields,
+			RequestFields:  input.Fields,
 			Response:       item.Output,
-			ResponseFields: symbleMap[item.Output].Fields,
+			ResponseFields: output.Fields,
 			Path:           item.URI,
 			Doc:            item.Comment,
 			Method:         strings.ToUpper(item.Method),
@@ -76,6 +85,7 @@ func ToSpec(spec *ast.Spec) Spec {
 		ret.Route = append(ret.Route, route)
 	}
 	ret.Docs = NewDocument(spec)
-	ret.ContainsMultipartFile = containsMultipartFile
+	ret.ContainsFile = inputContainsMultipartFile || outputContainsMultipartFile
+	ret.ContainsMultipartFile = inputContainsMultipartFile
 	return ret
 }

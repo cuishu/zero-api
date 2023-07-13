@@ -2,16 +2,25 @@
 
 package proto
 
-{{if .ContainsMultipartFile}}import (
-	"mime/multipart"
+{{if .ContainsFile}}import (
+	"io"
 	"net/textproto"
-){{else}}{{end}}
-{{if .ContainsMultipartFile}}
+)
+{{end}}
+{{if .ContainsFile}}
 type File struct {
 	Filename string
 	Header   textproto.MIMEHeader
 	Size     int64
-	File     multipart.File
+	File     io.ReadCloser
+}
+
+func (f *File) Read(p []byte) (n int, err error) {
+	return f.File.Read(p)
+}
+
+func (f *File) Close() error {
+	return f.File.Close()
 }
 {{else}}{{end}}
 {{range .Types}}

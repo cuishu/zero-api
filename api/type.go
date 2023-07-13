@@ -4,7 +4,10 @@ import (
 	"github.com/cuishu/zero-api/ast"
 )
 
-var containsMultipartFile = false
+var (
+	inputContainsMultipartFile = false
+	outputContainsMultipartFile = false
+)
 
 type Field struct {
 	Name      string
@@ -19,14 +22,14 @@ type Type struct {
 	TypeName  string
 	Fields    []Field
 	Documents string
+	HasFile   bool
 }
 
-func memberToField(member ast.Field) Field {
+func memberToField(member ast.Field) (Field, bool) {
 	t := member.Type
 	var isFile bool
 	if member.Type == "file" {
 		t = "File"
-		containsMultipartFile = true
 		isFile = true
 	}
 	return Field{
@@ -35,7 +38,7 @@ func memberToField(member ast.Field) Field {
 		Type:      t,
 		Documents: member.Comment,
 		IsFile:    isFile,
-	}
+	}, isFile
 }
 
 func convertSpecType(item ast.Type) Type {
@@ -43,7 +46,11 @@ func convertSpecType(item ast.Type) Type {
 	t.Name = item.Name
 	t.Documents = item.Comment
 	for _, member := range item.Fields {
-		t.Fields = append(t.Fields, memberToField(member))
+		field, isFile := memberToField(member)
+		t.Fields = append(t.Fields, field)
+		if isFile {
+			t.HasFile = true
+		}
 	}
 	return t
 }
