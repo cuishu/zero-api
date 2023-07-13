@@ -10,6 +10,7 @@ type Route struct {
 	ResponseFields        []Field
 	Path                  string
 	Doc                   string
+	ResponseHasFile       bool
 	ContainsMultipartFile bool
 }
 

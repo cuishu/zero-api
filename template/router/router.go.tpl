@@ -8,6 +8,7 @@ import (
 	"{{.Package.Name}}/svc"
 	"context"
 	{{if .ContainsMultipartFile}}"mime/multipart"{{else}}{{end}}
+	{{if .ContainsFile}}"io"{{end}}
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -72,7 +73,11 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 			ctx.JSON(http.StatusInternalServerError, Fail(err))
 			return
 		}
+		{{if .ResponseHasFile}}
+		io.Copy(ctx.Writer, &resp.Ok)
+		{{else}}
 		ctx.JSON(http.StatusOK, Success(resp))
+		{{end}}
 	})
 	{{end}}
 }

@@ -72,14 +72,15 @@ func ToSpec(spec *ast.Spec) Spec {
 			outputContainsMultipartFile = true
 		}
 		route := Route{
-			FuncName:       item.Handler,
-			Request:        item.Input,
-			RequestFields:  input.Fields,
-			Response:       item.Output,
-			ResponseFields: output.Fields,
-			Path:           item.URI,
-			Doc:            item.Comment,
-			Method:         strings.ToUpper(item.Method),
+			FuncName:        item.Handler,
+			Request:         item.Input,
+			RequestFields:   input.Fields,
+			Response:        item.Output,
+			ResponseFields:  output.Fields,
+			ResponseHasFile: output.HasFile,
+			Path:            item.URI,
+			Doc:             item.Comment,
+			Method:          strings.ToUpper(item.Method),
 		}
 		route.Check()
 		ret.Route = append(ret.Route, route)
