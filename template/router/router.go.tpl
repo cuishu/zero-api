@@ -73,11 +73,9 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 			ctx.JSON(http.StatusInternalServerError, Fail(err))
 			return
 		}
-		{{if .ResponseHasFile}}
-		io.Copy(ctx.Writer, &resp.Ok)
-		{{else}}
-		ctx.JSON(http.StatusOK, Success(resp))
-		{{end}}
+		{{if .ResponseHasFile}}{{range .ResponseFields}}
+		io.Copy(ctx.Writer, &resp.{{.Name}})
+		{{end}}{{else}}ctx.JSON(http.StatusOK, Success(resp)){{end}}
 	})
 	{{end}}
 }
