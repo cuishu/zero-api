@@ -75,7 +75,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 		}
 		{{if .ResponseHasFile}}{{range .ResponseFields}}
 		defer resp.{{.Name}}.Close()
-		ctx.Writer.Header().Add("Content-Type", resp.Ok.ContentType)
+		ctx.Writer.Header().Add("Content-Type", resp.{{.Name}}.ContentType)
 		io.Copy(ctx.Writer, &resp.{{.Name}})
 		{{end}}{{else}}ctx.JSON(http.StatusOK, Success(resp)){{end}}
 	})
