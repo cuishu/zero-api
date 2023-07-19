@@ -47,7 +47,8 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 			ctx.JSON(http.StatusBadRequest, Fail(err))
 			return
 		}
-		{{range .RequestFields}}{{if .IsFile}}if params.{{.Name}} != nil {
+		{{range .RequestFields}}{{if .IsFile}}
+		if params.{{.Name}} != nil {
 			if f, err := params.{{.Name}}.Open(); err != nil {
 				ctx.JSON(http.StatusBadRequest, Fail(err))
 				return
@@ -58,8 +59,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 				input.{{.Name}}.File = f
 			}
 		}{{else}}
-		input.{{.Name}} = params.{{.Name}}
-		{{end}}{{end}}
+		input.{{.Name}} = params.{{.Name}}{{end}}{{end}}
 		{{else}}if err := ctx.ShouldBind(&input); err != nil {
 			ctx.JSON(http.StatusBadRequest, Fail(err))
 			return
