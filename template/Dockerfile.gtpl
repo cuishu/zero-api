@@ -2,6 +2,6 @@ FROM alpine
 
 WORKDIR /app
 
-COPY {{.Package}} .
+COPY {{.Package.ShortName}} .
 
-CMD ["./{{.Package}}"]
+CMD ["./{{.Package.ShortName}}"]
