@@ -109,6 +109,10 @@ func genApiDoc(spec *api.Spec) {
 	genFileOverwrite("doc/api.md", spec.Template.DocAPI, spec.Docs)
 }
 
+func genDrone(spec *api.Spec) {
+	genFile(".drone.yml", spec.Template.Drone, spec)
+}
+
 func GenerateCode(spec *api.Spec) {
 	genConfig(spec)
 	genLogic(spec)
@@ -123,6 +127,7 @@ func GenerateCode(spec *api.Spec) {
 	genDockerFile(spec)
 	genSession(spec)
 	genApiDoc(spec)
+	genDrone(spec)
 
 	cmd := exec.Command("go", "mod", "tidy")
 	cmd.Stdin = os.Stdin

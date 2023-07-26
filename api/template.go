@@ -15,4 +15,5 @@ type Template struct {
 	Proto      string
 	Session    string
 	DocAPI     string
+	Drone      string
 }
