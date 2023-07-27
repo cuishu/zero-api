@@ -47,6 +47,7 @@ type Spec struct {
 	Template              Template
 	ContainsMultipartFile bool
 	ContainsFile          bool
+	ContainsValidToken    bool
 	Docs                  Document
 }
 
@@ -71,6 +72,9 @@ func ToSpec(spec *ast.Spec) Spec {
 		if output.HasFile {
 			outputContainsMultipartFile = true
 		}
+		if item.ValidToken {
+			ret.ContainsValidToken = true
+		}
 		route := Route{
 			FuncName:        item.Handler,
 			Request:         item.Input,
@@ -80,6 +84,7 @@ func ToSpec(spec *ast.Spec) Spec {
 			ResponseHasFile: output.HasFile,
 			Path:            item.URI,
 			Doc:             item.Comment,
+			ValidToken:      item.ValidToken,
 			Method:          strings.ToUpper(item.Method),
 		}
 		route.Check()

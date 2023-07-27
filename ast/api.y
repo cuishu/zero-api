@@ -57,9 +57,9 @@
 %token TYPE
 %token SERVICE
 %token COMMENT
-%token NAME STRING TAG
-%token METHOD HANDLER URI RETURN
-%token OPEN_BRACE CLOSE_BRACE OPEN_PAREN CLOSE_PAREN TAG_SEP COLON SPACE EOL
+%token NAME TAG STRING
+%token DECORATOR_HANDLER DECORATOR_TOKEN METHOD URI RETURN
+%token OPEN_BRACE CLOSE_BRACE OPEN_PAREN CLOSE_PAREN COLON
 %right NAME
 %%
 stmt :
@@ -149,7 +149,8 @@ service_name: NAME {
     }
     ;
 api:
-    | api HANDLER handler
+    | api DECORATOR_HANDLER handler
+    | api DECORATOR_TOKEN deco_token
     | api method uri OPEN_PAREN params CLOSE_PAREN RETURN OPEN_PAREN ret CLOSE_PAREN
     | api comment
     ;
@@ -176,13 +177,27 @@ ret : NAME {
         api->output = yylval.str;
         yylval.str = NULL;
     };
+deco_token: {
+        struct api* api = current_api();
+        if (api == NULL || api->method != NULL) {
+            api = malloc(sizeof(*api));
+            api->comment = comment;
+            comment = NULL;
+            list_append(&api->node, &ast.service.apis);
+        }
+        api->valid_token = true;
+        yylval.str = NULL;
+    };
 handler: NAME {
-        struct api* api = malloc(sizeof(*api));
-        api->comment = comment;
-        comment = NULL;
+        struct api* api = current_api();
+        if (api == NULL || api->method != NULL) {
+            api = malloc(sizeof(*api));
+            api->comment = comment;
+            comment = NULL;
+            list_append(&api->node, &ast.service.apis);
+        }
         api->handler = yylval.str;
         yylval.str = NULL;
-        list_append(&api->node, &ast.service.apis);
     }
     ;
 %%

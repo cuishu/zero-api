@@ -11,6 +11,8 @@ import (
 	{{if .ContainsFile}}"io"{{end}}
 	"net/http"
 
+	{{if .ContainsValidToken}}"gitlab.qingyuantop.top/financial_freedom_league/validtoken"
+	{{end}}
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,7 +38,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 	middleware(&svctx, r)
 	{{range .Route}}
 	{{.Doc}}
-	r.{{.Method}}("{{.Path}}", func(ctx *gin.Context) {
+	r.{{.Method}}("{{.Path}}", {{if .ValidToken}}validtoken.ValidToken(svctx.PubKey, ApiVersion, {{end}}func(ctx *gin.Context) {
 		var input proto.{{.Request}}
 		{{if .ContainsMultipartFile}}
 		var params struct {
@@ -78,6 +80,6 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 		ctx.Writer.Header().Add("Content-Type", resp.{{.Name}}.ContentType)
 		io.Copy(ctx.Writer, &resp.{{.Name}})
 		{{end}}{{else}}ctx.JSON(http.StatusOK, Success(resp)){{end}}
-	})
+	}{{if .ValidToken}}){{end}})
 	{{end}}
 }

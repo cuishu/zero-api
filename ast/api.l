@@ -100,7 +100,8 @@ string \"(\\.|[:"])*\"
     COPY(yylval.str, yytext);
     return METHOD;
 }
-"@handler" { HANDLE_COLUMN(yytext); return HANDLER; }
+"@handler" { HANDLE_COLUMN(yytext); return DECORATOR_HANDLER; }
+"@validtoken" { HANDLE_COLUMN(yytext); return DECORATOR_TOKEN; }
 "return" { HANDLE_COLUMN(yytext); return RETURN; }
 "returns" { HANDLE_COLUMN(yytext); return RETURN; }
 

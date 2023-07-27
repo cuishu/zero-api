@@ -27,12 +27,13 @@ type Type struct {
 }
 
 type Api struct {
-	Comment string
-	Handler string
-	Method  string
-	URI     string
-	Input   string
-	Output  string
+	Comment    string
+	Handler    string
+	Method     string
+	URI        string
+	Input      string
+	Output     string
+	ValidToken bool
 }
 
 type Service struct {
@@ -107,12 +108,13 @@ func toApis(apis *C.struct_list_head) []Api {
 			break
 		}
 		p := Api{
-			Comment: strings.TrimRight(C.GoString(a.comment), "\n"),
-			Handler: C.GoString(a.handler),
-			Method:  C.GoString(a.method),
-			URI:     C.GoString(a.uri),
-			Input:   C.GoString(a.input),
-			Output:  C.GoString(a.output),
+			Comment:    strings.TrimRight(C.GoString(a.comment), "\n"),
+			Handler:    C.GoString(a.handler),
+			Method:     C.GoString(a.method),
+			URI:        C.GoString(a.uri),
+			Input:      C.GoString(a.input),
+			Output:     C.GoString(a.output),
+			ValidToken: bool(a.valid_token),
 		}
 		ret = append(ret, p)
 		ptr = &a.node

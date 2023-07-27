@@ -64,20 +64,18 @@ extern int yydebug;
     SERVICE = 265,                 /* SERVICE  */
     COMMENT = 266,                 /* COMMENT  */
     NAME = 267,                    /* NAME  */
-    STRING = 268,                  /* STRING  */
-    TAG = 269,                     /* TAG  */
-    METHOD = 270,                  /* METHOD  */
-    HANDLER = 271,                 /* HANDLER  */
-    URI = 272,                     /* URI  */
-    RETURN = 273,                  /* RETURN  */
-    OPEN_BRACE = 274,              /* OPEN_BRACE  */
-    CLOSE_BRACE = 275,             /* CLOSE_BRACE  */
-    OPEN_PAREN = 276,              /* OPEN_PAREN  */
-    CLOSE_PAREN = 277,             /* CLOSE_PAREN  */
-    TAG_SEP = 278,                 /* TAG_SEP  */
-    COLON = 279,                   /* COLON  */
-    SPACE = 280,                   /* SPACE  */
-    EOL = 281                      /* EOL  */
+    TAG = 268,                     /* TAG  */
+    STRING = 269,                  /* STRING  */
+    DECORATOR_HANDLER = 270,       /* DECORATOR_HANDLER  */
+    DECORATOR_TOKEN = 271,         /* DECORATOR_TOKEN  */
+    METHOD = 272,                  /* METHOD  */
+    URI = 273,                     /* URI  */
+    RETURN = 274,                  /* RETURN  */
+    OPEN_BRACE = 275,              /* OPEN_BRACE  */
+    CLOSE_BRACE = 276,             /* CLOSE_BRACE  */
+    OPEN_PAREN = 277,              /* OPEN_PAREN  */
+    CLOSE_PAREN = 278,             /* CLOSE_PAREN  */
+    COLON = 279                    /* COLON  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

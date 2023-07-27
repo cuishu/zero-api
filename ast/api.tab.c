@@ -163,39 +163,38 @@ enum yysymbol_kind_t
   YYSYMBOL_SERVICE = 10,                   /* SERVICE  */
   YYSYMBOL_COMMENT = 11,                   /* COMMENT  */
   YYSYMBOL_NAME = 12,                      /* NAME  */
-  YYSYMBOL_STRING = 13,                    /* STRING  */
-  YYSYMBOL_TAG = 14,                       /* TAG  */
-  YYSYMBOL_METHOD = 15,                    /* METHOD  */
-  YYSYMBOL_HANDLER = 16,                   /* HANDLER  */
-  YYSYMBOL_URI = 17,                       /* URI  */
-  YYSYMBOL_RETURN = 18,                    /* RETURN  */
-  YYSYMBOL_OPEN_BRACE = 19,                /* OPEN_BRACE  */
-  YYSYMBOL_CLOSE_BRACE = 20,               /* CLOSE_BRACE  */
-  YYSYMBOL_OPEN_PAREN = 21,                /* OPEN_PAREN  */
-  YYSYMBOL_CLOSE_PAREN = 22,               /* CLOSE_PAREN  */
-  YYSYMBOL_TAG_SEP = 23,                   /* TAG_SEP  */
+  YYSYMBOL_TAG = 13,                       /* TAG  */
+  YYSYMBOL_STRING = 14,                    /* STRING  */
+  YYSYMBOL_DECORATOR_HANDLER = 15,         /* DECORATOR_HANDLER  */
+  YYSYMBOL_DECORATOR_TOKEN = 16,           /* DECORATOR_TOKEN  */
+  YYSYMBOL_METHOD = 17,                    /* METHOD  */
+  YYSYMBOL_URI = 18,                       /* URI  */
+  YYSYMBOL_RETURN = 19,                    /* RETURN  */
+  YYSYMBOL_OPEN_BRACE = 20,                /* OPEN_BRACE  */
+  YYSYMBOL_CLOSE_BRACE = 21,               /* CLOSE_BRACE  */
+  YYSYMBOL_OPEN_PAREN = 22,                /* OPEN_PAREN  */
+  YYSYMBOL_CLOSE_PAREN = 23,               /* CLOSE_PAREN  */
   YYSYMBOL_COLON = 24,                     /* COLON  */
-  YYSYMBOL_SPACE = 25,                     /* SPACE  */
-  YYSYMBOL_EOL = 26,                       /* EOL  */
-  YYSYMBOL_YYACCEPT = 27,                  /* $accept  */
-  YYSYMBOL_stmt = 28,                      /* stmt  */
-  YYSYMBOL_info = 29,                      /* info  */
-  YYSYMBOL_30_1 = 30,                      /* $@1  */
-  YYSYMBOL_31_2 = 31,                      /* $@2  */
-  YYSYMBOL_type = 32,                      /* type  */
-  YYSYMBOL_field = 33,                     /* field  */
-  YYSYMBOL_comment = 34,                   /* comment  */
-  YYSYMBOL_field_tag = 35,                 /* field_tag  */
-  YYSYMBOL_field_name = 36,                /* field_name  */
-  YYSYMBOL_field_type = 37,                /* field_type  */
-  YYSYMBOL_type_name = 38,                 /* type_name  */
-  YYSYMBOL_service_name = 39,              /* service_name  */
-  YYSYMBOL_api = 40,                       /* api  */
-  YYSYMBOL_method = 41,                    /* method  */
-  YYSYMBOL_uri = 42,                       /* uri  */
-  YYSYMBOL_params = 43,                    /* params  */
-  YYSYMBOL_ret = 44,                       /* ret  */
-  YYSYMBOL_handler = 45                    /* handler  */
+  YYSYMBOL_YYACCEPT = 25,                  /* $accept  */
+  YYSYMBOL_stmt = 26,                      /* stmt  */
+  YYSYMBOL_info = 27,                      /* info  */
+  YYSYMBOL_28_1 = 28,                      /* $@1  */
+  YYSYMBOL_29_2 = 29,                      /* $@2  */
+  YYSYMBOL_type = 30,                      /* type  */
+  YYSYMBOL_field = 31,                     /* field  */
+  YYSYMBOL_comment = 32,                   /* comment  */
+  YYSYMBOL_field_tag = 33,                 /* field_tag  */
+  YYSYMBOL_field_name = 34,                /* field_name  */
+  YYSYMBOL_field_type = 35,                /* field_type  */
+  YYSYMBOL_type_name = 36,                 /* type_name  */
+  YYSYMBOL_service_name = 37,              /* service_name  */
+  YYSYMBOL_api = 38,                       /* api  */
+  YYSYMBOL_method = 39,                    /* method  */
+  YYSYMBOL_uri = 40,                       /* uri  */
+  YYSYMBOL_params = 41,                    /* params  */
+  YYSYMBOL_ret = 42,                       /* ret  */
+  YYSYMBOL_deco_token = 43,                /* deco_token  */
+  YYSYMBOL_handler = 44                    /* handler  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -517,19 +516,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   38
+#define YYLAST   46
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  27
+#define YYNTOKENS  25
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  19
+#define YYNNTS  20
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  28
+#define YYNRULES  30
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  57
+#define YYNSTATES  59
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   281
+#define YYMAXUTOK   279
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -570,8 +569,7 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24
 };
 
 #if YYDEBUG
@@ -580,7 +578,8 @@ static const yytype_uint8 yyrline[] =
 {
        0,    65,    65,    66,    67,    68,    69,    81,    85,    81,
       95,    96,    97,    99,   101,   107,   114,   126,   133,   144,
-     151,   152,   153,   154,   156,   162,   168,   174,   179
+     151,   152,   153,   154,   155,   157,   163,   169,   175,   180,
+     191
 };
 #endif
 
@@ -598,11 +597,12 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "INFO", "AUTHOR",
   "EMAIL", "VERSION", "EMAIL_ADDR", "VERSION_VAL", "TYPE", "SERVICE",
-  "COMMENT", "NAME", "STRING", "TAG", "METHOD", "HANDLER", "URI", "RETURN",
-  "OPEN_BRACE", "CLOSE_BRACE", "OPEN_PAREN", "CLOSE_PAREN", "TAG_SEP",
-  "COLON", "SPACE", "EOL", "$accept", "stmt", "info", "$@1", "$@2", "type",
-  "field", "comment", "field_tag", "field_name", "field_type", "type_name",
-  "service_name", "api", "method", "uri", "params", "ret", "handler", YY_NULLPTR
+  "COMMENT", "NAME", "TAG", "STRING", "DECORATOR_HANDLER",
+  "DECORATOR_TOKEN", "METHOD", "URI", "RETURN", "OPEN_BRACE",
+  "CLOSE_BRACE", "OPEN_PAREN", "CLOSE_PAREN", "COLON", "$accept", "stmt",
+  "info", "$@1", "$@2", "type", "field", "comment", "field_tag",
+  "field_name", "field_type", "type_name", "service_name", "api", "method",
+  "uri", "params", "ret", "deco_token", "handler", YY_NULLPTR
 };
 
 static const char *
@@ -619,11 +619,11 @@ static const yytype_int16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277,   278,   279,   280,   281
+     275,   276,   277,   278,   279
 };
 #endif
 
-#define YYPACT_NINF (-21)
+#define YYPACT_NINF (-22)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -637,12 +637,12 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -21,     0,   -21,   -20,   -10,    -8,   -21,     3,   -21,    -4,
-     -21,    -1,    -5,    -2,   -21,   -21,     4,   -21,    -6,    -3,
-     -21,   -21,   -21,   -21,   -21,   -21,     9,   -21,    10,   -21,
-     -21,     6,    19,   -21,    11,   -21,   -21,   -21,     5,     7,
-     -21,   -21,    15,    21,   -21,     8,   -21,    14,    23,    12,
-      13,    22,    27,   -21,    16,   -21,   -21
+     -22,     0,   -22,   -21,     1,     3,   -22,    12,   -22,    -3,
+     -22,    -2,    -5,    -1,   -22,   -22,     8,   -22,    -7,    -9,
+     -22,   -22,   -22,   -22,   -22,   -22,     9,    11,   -22,   -22,
+     -22,   -22,     6,    20,   -22,    13,   -22,   -22,   -22,   -22,
+       5,     4,   -22,   -22,    17,    23,   -22,    10,   -22,    15,
+      25,    14,    16,    26,    24,   -22,    18,   -22,   -22
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -652,24 +652,24 @@ static const yytype_int8 yydefact[] =
 {
        2,     0,     1,     0,     0,     0,     6,     0,    18,     0,
       19,     0,     0,     0,    10,    20,     0,     3,     0,     0,
-       7,    14,    16,     4,    11,    12,     0,    24,     0,     5,
-      23,     0,     0,    17,     0,    28,    21,    25,     0,     0,
-      15,    13,     0,     0,    26,     0,     8,     0,     0,     0,
-       0,     0,     0,    27,     0,     9,    22
+       7,    14,    16,     4,    11,    12,     0,     0,    29,    25,
+       5,    24,     0,     0,    17,     0,    30,    21,    22,    26,
+       0,     0,    15,    13,     0,     0,    27,     0,     8,     0,
+       0,     0,     0,     0,     0,    28,     0,     9,    23
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -21,   -21,   -21,   -21,   -21,   -21,   -21,    17,   -21,   -21,
-     -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21
+     -22,   -22,   -22,   -22,   -22,   -22,   -22,    27,   -22,   -22,
+     -22,   -22,   -22,   -22,   -22,   -22,   -22,   -22,   -22,   -22
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,    13,    32,    48,    18,    24,    25,    41,    26,
-      34,     9,    11,    19,    31,    38,    45,    54,    36
+       0,     1,    13,    33,    50,    18,    24,    25,    43,    26,
+      35,     9,    11,    19,    32,    40,    47,    56,    38,    37
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -677,38 +677,41 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       2,     7,     8,     3,    10,    21,    22,    12,    21,     4,
-       5,     6,    27,    28,    23,    14,    20,    29,    15,    16,
-      17,    33,    35,    37,    39,    40,    42,    44,    46,    50,
-      47,    43,    49,    51,    53,    55,    30,    52,    56
+       2,     7,    21,     3,    21,    22,    27,    28,    29,     4,
+       5,     6,    30,     8,    23,    10,    12,    14,    15,    16,
+      20,    34,    17,    36,    39,    41,    42,    44,    45,    46,
+      48,    52,    57,    49,    51,     0,    53,     0,    55,     0,
+      54,    58,     0,     0,     0,     0,    31
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,    21,    12,     3,    12,    11,    12,     4,    11,     9,
-      10,    11,    15,    16,    20,    19,    12,    20,    19,    24,
-      22,    12,    12,    17,     5,    14,    21,    12,     7,     6,
-      22,    24,    18,    21,    12,     8,    19,    24,    22
+       0,    22,    11,     3,    11,    12,    15,    16,    17,     9,
+      10,    11,    21,    12,    21,    12,     4,    20,    20,    24,
+      12,    12,    23,    12,    18,     5,    13,    22,    24,    12,
+       7,     6,     8,    23,    19,    -1,    22,    -1,    12,    -1,
+      24,    23,    -1,    -1,    -1,    -1,    19
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    28,     0,     3,     9,    10,    11,    21,    12,    38,
-      12,    39,     4,    29,    19,    19,    24,    22,    32,    40,
-      12,    11,    12,    20,    33,    34,    36,    15,    16,    20,
-      34,    41,    30,    12,    37,    12,    45,    17,    42,     5,
-      14,    35,    21,    24,    12,    43,     7,    22,    31,    18,
-       6,    21,    24,    12,    44,     8,    22
+       0,    26,     0,     3,     9,    10,    11,    22,    12,    36,
+      12,    37,     4,    27,    20,    20,    24,    23,    30,    38,
+      12,    11,    12,    21,    31,    32,    34,    15,    16,    17,
+      21,    32,    39,    28,    12,    35,    12,    44,    43,    18,
+      40,     5,    13,    33,    22,    24,    12,    41,     7,    23,
+      29,    19,     6,    22,    24,    12,    42,     8,    23
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    27,    28,    28,    28,    28,    28,    30,    31,    29,
-      32,    32,    32,    33,    34,    35,    36,    37,    38,    39,
-      40,    40,    40,    40,    41,    42,    43,    44,    45
+       0,    25,    26,    26,    26,    26,    26,    28,    29,    27,
+      30,    30,    30,    31,    32,    33,    34,    35,    36,    37,
+      38,    38,    38,    38,    38,    39,    40,    41,    42,    43,
+      44
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -716,7 +719,8 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     0,     5,     6,     6,     2,     0,     0,    11,
        0,     2,     2,     3,     1,     1,     1,     1,     1,     1,
-       0,     3,    10,     2,     1,     1,     1,     1,     1
+       0,     3,     3,    10,     2,     1,     1,     1,     1,     0,
+       1
 };
 
 
@@ -1194,7 +1198,7 @@ yyreduce:
             comment = NULL;
         }
     }
-#line 1198 "api.tab.c"
+#line 1202 "api.tab.c"
     break;
 
   case 7: /* $@1: %empty  */
@@ -1203,7 +1207,7 @@ yyreduce:
         ast.info.author = yylval.str;
         yylval.str = NULL;
     }
-#line 1207 "api.tab.c"
+#line 1211 "api.tab.c"
     break;
 
   case 8: /* $@2: %empty  */
@@ -1212,7 +1216,7 @@ yyreduce:
         ast.info.email = yylval.str;
         yylval.str = NULL;
     }
-#line 1216 "api.tab.c"
+#line 1220 "api.tab.c"
     break;
 
   case 9: /* info: AUTHOR COLON NAME $@1 EMAIL COLON EMAIL_ADDR $@2 VERSION COLON VERSION_VAL  */
@@ -1221,7 +1225,7 @@ yyreduce:
         ast.info.version = yylval.str;
         yylval.str = NULL;
     }
-#line 1225 "api.tab.c"
+#line 1229 "api.tab.c"
     break;
 
   case 14: /* comment: COMMENT  */
@@ -1231,7 +1235,7 @@ yyreduce:
         comment = yylval.str;
         yylval.str = NULL;
     }
-#line 1235 "api.tab.c"
+#line 1239 "api.tab.c"
     break;
 
   case 15: /* field_tag: TAG  */
@@ -1241,7 +1245,7 @@ yyreduce:
         field->tag = yylval.str;
         yylval.str = NULL;
     }
-#line 1245 "api.tab.c"
+#line 1249 "api.tab.c"
     break;
 
   case 16: /* field_name: NAME  */
@@ -1257,7 +1261,7 @@ yyreduce:
             list_append(&field->node, &type->fields);
         }
     }
-#line 1261 "api.tab.c"
+#line 1265 "api.tab.c"
     break;
 
   case 17: /* field_type: NAME  */
@@ -1267,7 +1271,7 @@ yyreduce:
         field->type = yyval.str;
         yylval.str = NULL;
     }
-#line 1271 "api.tab.c"
+#line 1275 "api.tab.c"
     break;
 
   case 18: /* type_name: NAME  */
@@ -1281,7 +1285,7 @@ yyreduce:
         type->name = yylval.str;
         yylval.str = NULL;
     }
-#line 1285 "api.tab.c"
+#line 1289 "api.tab.c"
     break;
 
   case 19: /* service_name: NAME  */
@@ -1292,64 +1296,83 @@ yyreduce:
         comment = NULL;
         yylval.str = NULL;
     }
-#line 1296 "api.tab.c"
+#line 1300 "api.tab.c"
     break;
 
-  case 24: /* method: METHOD  */
-#line 156 "api.y"
+  case 25: /* method: METHOD  */
+#line 157 "api.y"
                {
         struct api* api = current_api();
         api->method = yylval.str;
         yylval.str = NULL;
     }
-#line 1306 "api.tab.c"
+#line 1310 "api.tab.c"
     break;
 
-  case 25: /* uri: URI  */
-#line 162 "api.y"
+  case 26: /* uri: URI  */
+#line 163 "api.y"
          {
         struct api* api = current_api();
         api->uri = yylval.str;
         yylval.str = NULL;
     }
-#line 1316 "api.tab.c"
+#line 1320 "api.tab.c"
     break;
 
-  case 26: /* params: NAME  */
-#line 168 "api.y"
+  case 27: /* params: NAME  */
+#line 169 "api.y"
              {
         struct api* api = current_api();
         api->input = yylval.str;
         yylval.str = NULL;
     }
-#line 1326 "api.tab.c"
+#line 1330 "api.tab.c"
     break;
 
-  case 27: /* ret: NAME  */
-#line 174 "api.y"
+  case 28: /* ret: NAME  */
+#line 175 "api.y"
            {
         struct api* api = current_api();
         api->output = yylval.str;
         yylval.str = NULL;
     }
-#line 1336 "api.tab.c"
+#line 1340 "api.tab.c"
     break;
 
-  case 28: /* handler: NAME  */
-#line 179 "api.y"
+  case 29: /* deco_token: %empty  */
+#line 180 "api.y"
+            {
+        struct api* api = current_api();
+        if (api == NULL || api->method != NULL) {
+            api = malloc(sizeof(*api));
+            api->comment = comment;
+            comment = NULL;
+            list_append(&api->node, &ast.service.apis);
+        }
+        api->valid_token = true;
+        yylval.str = NULL;
+    }
+#line 1356 "api.tab.c"
+    break;
+
+  case 30: /* handler: NAME  */
+#line 191 "api.y"
               {
-        struct api* api = malloc(sizeof(*api));
-        api->comment = comment;
-        comment = NULL;
+        struct api* api = current_api();
+        if (api == NULL || api->method != NULL) {
+            api = malloc(sizeof(*api));
+            api->comment = comment;
+            comment = NULL;
+            list_append(&api->node, &ast.service.apis);
+        }
         api->handler = yylval.str;
         yylval.str = NULL;
-        list_append(&api->node, &ast.service.apis);
     }
-#line 1349 "api.tab.c"
+#line 1372 "api.tab.c"
     break;
 
 
-#line 1353 "api.tab.c"
+#line 1376 "api.tab.c"
 
       default: break;
     }
@@ -1543,7 +1566,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 188 "api.y"
+#line 203 "api.y"
 
 
 struct ast* yyparser(char* fname)

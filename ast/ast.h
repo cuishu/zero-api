@@ -41,6 +41,7 @@ struct api {
     char* uri;
     char* input;
     char* output;
+    bool valid_token;
     struct list_head node;
 };
 
