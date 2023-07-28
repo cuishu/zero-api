@@ -38,7 +38,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 	middleware(&svctx, r)
 	{{range .Route}}
 	{{.Doc}}
-	r.{{.Method}}("{{.Path}}", {{if .ValidToken}}validtoken.ValidToken(svctx.PubKey, ApiVersion, {{end}}func(ctx *gin.Context) {
+	r.{{.Method}}("{{.Path}}", {{if .ValidToken}}validtoken.ValidToken(svctx.Config.PubKey, ApiVersion, {{end}}func(ctx *gin.Context) {
 		var input proto.{{.Request}}
 		{{if .ContainsMultipartFile}}
 		var params struct {

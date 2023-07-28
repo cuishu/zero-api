@@ -11,6 +11,7 @@ type Etcd struct {
 }
 
 type Config struct {
+	PubKey string      `yaml:"pubkey"`
 	Listen string      `yaml:"listen"`
 	Etcd   Etcd        `yaml:"etcd"`
 }
