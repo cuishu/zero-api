@@ -46,7 +46,7 @@ func NewDocument(spec *ast.Spec) Document {
 				for _, tag := range tags {
 					slice := strings.Split(tag, ":")
 					switch slice[0] {
-					case "json":
+					case "json", "form":
 						name = strings.Trim(slice[1], `"`)
 					case "binding":
 						vali = strings.Trim(slice[1], `"`)
@@ -56,6 +56,7 @@ func NewDocument(spec *ast.Spec) Document {
 					Name:     name,
 					Type:     field.Type,
 					Validate: vali,
+					Comment:  strings.Trim(strings.Trim(field.Documents, "/"), "*"),
 				}
 			}, symbleMap[a.Input].Fields),
 			Response: functools.Map(func(field Field) DocParams {
