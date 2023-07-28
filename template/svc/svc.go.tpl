@@ -7,6 +7,7 @@ import (
 )
 
 type Svc struct {
+	PubKey string
 	Config *config.Config
 	Logger *zap.SugaredLogger
 }

@@ -6,13 +6,13 @@ import (
 	"{{.Package.Name}}/logic"
 	"{{.Package.Name}}/proto"
 	"{{.Package.Name}}/svc"
-	"context"
-	{{if .ContainsMultipartFile}}"mime/multipart"{{else}}{{end}}
-	{{if .ContainsFile}}"io"{{end}}
+	"context"{{if .ContainsMultipartFile}}
+	"mime/multipart"{{else}}{{end}}{{if .ContainsFile}}
+	"io"{{end}}
 	"net/http"
-
-	{{if .ContainsValidToken}}"gitlab.qingyuantop.top/financial_freedom_league/validtoken"
-	{{end}}
+{{if .ContainsValidToken}}
+	
+	"gitlab.qingyuantop.top/financial_freedom_league/validtoken"{{end}}
 	"github.com/gin-gonic/gin"
 )
 
