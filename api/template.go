@@ -13,6 +13,7 @@ type Template struct {
 	Makefile   string
 	Dockerfile string
 	Proto      string
+	Builtin    string
 	Session    string
 	DocAPI     string
 	Drone      string

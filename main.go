@@ -45,6 +45,8 @@ var (
 	docAPITmpl string
 	//go:embed template/drone.yml.gtpl
 	droneTmpl string
+	//go:embed template/proto/builtin.go.tpl
+	builtinTmpl string
 )
 
 var (
@@ -115,6 +117,7 @@ func main() {
 	apiSpec.Template.Makefile = makefileTmpl
 	apiSpec.Template.Dockerfile = dockerfileTmpl
 	apiSpec.Template.Proto = protoTmpl
+	apiSpec.Template.Builtin = builtinTmpl
 	apiSpec.Template.Session = sessionTmpl
 	apiSpec.Template.DocAPI = docAPITmpl
 	apiSpec.Template.Drone = droneTmpl

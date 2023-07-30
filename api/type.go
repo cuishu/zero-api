@@ -5,16 +5,17 @@ import (
 )
 
 var (
-	inputContainsMultipartFile = false
+	inputContainsMultipartFile  = false
 	outputContainsMultipartFile = false
 )
 
 type Field struct {
-	Name      string
-	Tag       string
-	Type      string
-	IsFile    bool
-	Documents string
+	Name          string
+	Tag           string
+	Type          string
+	IsFile        bool
+	IsBuiltinType bool
+	Documents     string
 }
 
 type Type struct {
@@ -26,18 +27,30 @@ type Type struct {
 }
 
 func memberToField(member ast.Field) (Field, bool) {
+	isBuiltinType := false
 	t := member.Type
 	var isFile bool
-	if member.Type == "file" {
+	switch member.Type {
+	case "file":
 		t = "File"
 		isFile = true
+	case "id":
+		t = "ID"
+		isBuiltinType = true
+	case "uid":
+		t = "UID"
+		isBuiltinType = true
+	case "phone":
+		t = "Phone"
+		isBuiltinType = true
 	}
 	return Field{
-		Name:      member.Name,
-		Tag:       member.Tag,
-		Type:      t,
-		Documents: member.Comment,
-		IsFile:    isFile,
+		Name:          member.Name,
+		Tag:           member.Tag,
+		Type:          t,
+		Documents:     member.Comment,
+		IsFile:        isFile,
+		IsBuiltinType: isBuiltinType,
 	}, isFile
 }
 

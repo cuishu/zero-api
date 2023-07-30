@@ -42,7 +42,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 		var input proto.{{.Request}}
 		{{if .ContainsMultipartFile}}
 		var params struct {
-			{{range .RequestFields}}{{.Name}} {{if .IsFile}}*multipart.FileHeader{{else}}{{.Type}}{{end}} {{.Tag}}
+			{{range .RequestFields}}{{.Name}} {{if .IsFile}}*multipart.FileHeader{{else}}{{if .IsBuiltinType}}proto.{{end}}{{.Type}}{{end}} {{.Tag}}
 			{{end}}
 		}
 		if err := ctx.ShouldBind(&params); err != nil {

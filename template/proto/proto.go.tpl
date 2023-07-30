@@ -2,37 +2,6 @@
 
 package proto
 
-{{if .ContainsFile}}import (
-	"bytes"
-	"io"
-	"net/textproto"
-)
-{{end}}
-{{if .ContainsFile}}
-type File struct {
-	Filename    string
-	Header      textproto.MIMEHeader
-	Size        int64
-	File        io.ReadCloser
-	ContentType string
-}
-
-func (f *File) Read(p []byte) (n int, err error) {
-	return f.File.Read(p)
-}
-
-func (f *File) Close() error {
-	return f.File.Close()
-}
-
-func (f *File) FromBytes(data []byte, contentType string) {
-	f.FromReader(bytes.NewReader(data), contentType)
-}
-
-func (f *File) FromReader(reader io.Reader, contentType string) {
-	f.File = io.NopCloser(reader)
-	f.ContentType = contentType
-}{{end}}
 {{range .Types}}
 {{.Documents}}
 type {{.Name}} struct {
