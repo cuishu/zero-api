@@ -4,9 +4,11 @@ package proto
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"net/textproto"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -50,12 +52,34 @@ func (id *ID) UnmarshalJSON(data []byte) error {
 
 type UID uint64
 
-func (id UID) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%d"`, id)), nil
+func (uid UID) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`"%d"`, uid)), nil
 }
 
-func (id *UID) UnmarshalJSON(data []byte) error {
+func (uid *UID) UnmarshalJSON(data []byte) error {
 	n, err := strconv.ParseUint(strings.Trim(string(data), `"`), 10, 64)
-	*id = UID(n)
+	*uid = UID(n)
 	return err
+}
+
+type Phone string
+
+// 验证手机号格式
+func (phone Phone) verifyMobileFormat(phoneNumber string) bool {
+	regular := "^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$"
+	reg := regexp.MustCompile(regular)
+	return reg.MatchString(string(phoneNumber))
+}
+
+func (phone Phone) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`"%s"`, phone)), nil
+}
+
+func (phone *Phone) UnmarshalJSON(data []byte) error {
+	s := strings.Trim(string(data), `"`)
+	if !phone.verifyMobileFormat(s) {
+		return errors.New("invalid phone number")
+	}
+	*phone = Phone(s)
+	return nil
 }
