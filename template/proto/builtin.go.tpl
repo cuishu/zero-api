@@ -4,13 +4,15 @@ package proto
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"net/textproto"
-	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/nyaruka/phonenumbers"
 )
 
 type File struct {
@@ -62,24 +64,33 @@ func (uid *UID) UnmarshalJSON(data []byte) error {
 	return err
 }
 
-type Phone string
-
-// 验证手机号格式
-func (phone Phone) verifyMobileFormat(phoneNumber string) bool {
-	regular := "^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$"
-	reg := regexp.MustCompile(regular)
-	return reg.MatchString(string(phoneNumber))
-}
-
-func (phone Phone) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%s"`, phone)), nil
+type Phone struct {
+	Regin  string `json:"regin"`
+	Number string `json:"number"`
 }
 
 func (phone *Phone) UnmarshalJSON(data []byte) error {
-	s := strings.Trim(string(data), `"`)
-	if !phone.verifyMobileFormat(s) {
+	var v struct {
+		Regin  string `json:"regin"`
+		Number string `json:"number"`
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	v.Regin = strings.ToUpper(v.Regin)
+	num, err := phonenumbers.Parse(v.Number, v.Regin)
+	if err != nil {
+		return err
+	}
+	if !phonenumbers.IsValidNumberForRegion(num, v.Regin) {
 		return errors.New("invalid phone number")
 	}
-	*phone = Phone(s)
+	phone.Regin = v.Regin
+	phone.Number = phonenumbers.Format(num, phonenumbers.INTERNATIONAL)
 	return nil
+}
+
+func (phone Phone) E164() string {
+	num, _ := phonenumbers.Parse(phone.Number, phone.Regin)
+	return phonenumbers.Format(num, phonenumbers.E164)
 }
