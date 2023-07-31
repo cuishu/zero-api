@@ -49,10 +49,13 @@ zero-api -f 你的 .api 文件
 |6|service|
 |7|return/returns|
 |8|file|
-|9| GET/get|
-|10|POST/post|
-|11|PUT/put|
-|12|DELETE/delete|
+|9|id|
+|10|uid|
+|11|phone|
+|12| GET/get|
+|13|POST/post|
+|14|PUT/put|
+|15|DELETE/delete|
 
 
 ## API 说明
@@ -130,9 +133,9 @@ info (
 
 **变更规则(不强制要求)**
 ```
-有大的API变更或业务切换时变更第一位版本号
-增加或删除少量API时变更第二位版本号
-对部分api协议进行修改时，更新第三位版本号
+第一位是主版本号
+第二位是次版本号
+第三位是修订次数
 ```
 
 
