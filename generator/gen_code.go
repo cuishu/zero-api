@@ -114,6 +114,7 @@ func genDrone(spec *api.Spec) {
 }
 
 func GenerateCode(spec *api.Spec) {
+	GenerateProto(spec)
 	genConfig(spec)
 	genLogic(spec)
 	genMiddleware(spec)

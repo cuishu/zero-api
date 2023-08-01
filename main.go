@@ -124,5 +124,4 @@ func main() {
 	mkdirAll()
 	apiSpec.Package.Set(packagename)
 	generator.GenerateCode(&apiSpec)
-	generator.GenerateProto(&apiSpec)
 }
