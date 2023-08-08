@@ -36,9 +36,14 @@ func Success(data any) gin.H {
 
 func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 	middleware(&svctx, r)
+	validTokenConfig := validtoken.Config{
+		PublicKey: svctx.Config.PubKey,
+		ApiVersion: ApiVersion,
+		GetFunc: getToken,
+	}
 	{{range .Route}}
 	{{.Doc}}
-	r.{{.Method}}("{{.Path}}", {{if .ValidToken}}validtoken.ValidToken(svctx.Config.PubKey, ApiVersion, {{end}}func(ctx *gin.Context) {
+	r.{{.Method}}("{{.Path}}", {{if .ValidToken}}validtoken.ValidToken(&validTokenConfig, {{end}}func(ctx *gin.Context) {
 		var input proto.{{.Request}}
 		{{if .ContainsMultipartFile}}
 		var params struct {
