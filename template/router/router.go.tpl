@@ -63,7 +63,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 		}{{else}}
 		input.{{.Name}} = params.{{.Name}}{{end}}{{end}}
 		{{else}}if err := ctx.ShouldBind(&input); err != nil {
-			ctx.JSON(http.StatusBadRequest, Fail(err))
+			ctx.JSON(http.StatusTeapot, Fail(err))
 			return
 		}
 		{{end}}
