@@ -9,4 +9,5 @@ import (
 type Session struct {
 	Svc
 	Ctx    context.Context
+	UserID int64
 }

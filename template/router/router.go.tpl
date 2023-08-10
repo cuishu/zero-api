@@ -35,12 +35,12 @@ func Success(data any) gin.H {
 }
 
 func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
-	middleware(&svctx, r)
+	middleware(&svctx, r){{if .ContainsValidToken}}
 	validTokenConfig := validtoken.Config{
-		PublicKey: svctx.Config.PubKey,
+		PublicKey: svctx.Config.PublicKey,
 		ApiVersion: ApiVersion,
-		GetFunc: getToken,
-	}
+		HasKey: hasKey(svctx.Redis),
+	}{{end}}
 	{{range .Route}}
 	{{.Doc}}
 	r.{{.Method}}("{{.Path}}", {{if .ValidToken}}validtoken.ValidToken(&validTokenConfig, {{end}}func(ctx *gin.Context) {
@@ -74,7 +74,8 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 		{{end}}
 		resp, err := logic.{{.FuncName}}(&svc.Session{
 			Svc: svctx,
-			Ctx: context.Background(),
+			Ctx: context.Background(),{{if .ValidToken}}
+			UserID: ctx.GetInt64("user_id"),{{end}}
 		}, &input)
 		if err != nil {
 			ctx.JSON(http.StatusTeapot, Fail(err))

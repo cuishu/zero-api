@@ -20,3 +20,24 @@ steps:
       from_secret: username
     password:
       from_secret: password
+- name: deploy
+  image: appleboy/drone-ssh
+  settings:
+    host: deploy.server
+    username:
+      from_secret: ssh_user
+    password:
+      from_secret: ssh_passwd
+    port: 22
+    command_timeout: 5m
+    script:
+      - cd /root/deploy
+      - docker-compose pull {{.Package.ShortName}}
+      - docker-compose up -d
+  volumes:
+    - name: hosts
+      path: /etc/hosts
+volumes:
+  - name: hosts
+    host:
+      path: /etc/hosts

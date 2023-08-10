@@ -5,11 +5,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
+{{if .ContainsValidToken}}
 func getToken(key string) (string, error) {
 	return "", nil
 }
-
+{{end}}
 func logger(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		defer svc.Logger.Sync()
