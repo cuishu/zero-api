@@ -7,6 +7,7 @@
 
 {{range .Apis}}
 ### {{.Document}}
+<font color="green">{{.Method}}</font> ```{{.URI}}```
 
 **输入参数**
 |名称|类型|校验规则|说明|
