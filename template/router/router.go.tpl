@@ -78,7 +78,11 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 			UserID: ctx.GetInt64("user_id"),{{end}}
 		}, &input)
 		if err != nil {
-			ctx.JSON(http.StatusTeapot, Fail(err))
+			if e, ok := err.(proto.Error); ok {
+				ctx.JSON(e.Code, Fail(e))
+			} else {
+				ctx.JSON(http.StatusTeapot, Fail(err))
+			}
 			return
 		}
 		{{if .ResponseHasFile}}{{range .ResponseFields}}

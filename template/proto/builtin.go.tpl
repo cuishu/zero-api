@@ -15,6 +15,22 @@ import (
 	"github.com/nyaruka/phonenumbers"
 )
 
+type Error struct {
+	Code int
+	Mesg string
+}
+
+func NewError(code int, mesg string) Error {
+	return Error{
+		Code: code,
+		Mesg: mesg,
+	}
+}
+
+func (err Error) Error() string {
+	return err.Mesg
+}
+
 type File struct {
 	Filename    string
 	Header      textproto.MIMEHeader
