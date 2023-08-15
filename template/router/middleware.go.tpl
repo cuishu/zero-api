@@ -6,8 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 {{if .ContainsValidToken}}
-func getToken(key string) (string, error) {
-	return "", nil
+func hasKey(redisClient *redis.Client) validtoken.HasKeyFunc {
+	return func(key string) bool {
+		return redisClient.Get(context.Background(), key).Err() == nil
+	}
 }
 {{end}}
 func logger(svc *svc.Svc) gin.HandlerFunc {
