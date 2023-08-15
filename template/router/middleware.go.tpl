@@ -1,8 +1,10 @@
 package router
 
 import (
+{{if .ContainsValidToken}}
+	"context"
+	"gitlab.qingyuantop.top/financial_freedom_league/validtoken"{{end}}
 	"{{.Package.Name}}/svc"
-
 	"github.com/gin-gonic/gin"
 )
 {{if .ContainsValidToken}}

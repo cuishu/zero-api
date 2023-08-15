@@ -7,7 +7,7 @@ import (
 	"{{.Package.Name}}/proto"
 	"{{.Package.Name}}/svc"
 	"context"{{if .ContainsMultipartFile}}
-	"mime/multipart"{{else}}{{end}}{{if .ContainsFile}}
+	"mime/multipart"{{else}}{{end}}{{if .ResponseFile}}
 	"io"{{end}}
 	"net/http"
 {{if .ContainsValidToken}}

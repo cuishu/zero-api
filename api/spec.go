@@ -47,6 +47,7 @@ type Spec struct {
 	Template              Template
 	ContainsMultipartFile bool
 	ContainsFile          bool
+	ResponseFile          bool
 	ContainsValidToken    bool
 	Docs                  Document
 }
@@ -92,6 +93,7 @@ func ToSpec(spec *ast.Spec) Spec {
 	}
 	ret.Docs = NewDocument(spec)
 	ret.ContainsFile = inputContainsMultipartFile || outputContainsMultipartFile
+	ret.ResponseFile = outputContainsMultipartFile
 	ret.ContainsMultipartFile = inputContainsMultipartFile
 	return ret
 }
