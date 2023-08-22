@@ -10,8 +10,10 @@ steps:
       path: /gopath
   commands:
   - export GOPATH=/gopath
+  - echo "machine gitlab.qingyuantop.top login $USRNAME password $PASSWD" > ~/.netrc
   - go env -w GOPROXY=https://goproxy.cn,direct
   - export CGO_ENABLED=0
+  - export GOPRIVATE=gitlab.qingyuantop.top
   - go build -tags netgo
 - name: build image
   image: plugins/docker
