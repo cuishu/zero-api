@@ -5,6 +5,9 @@ name: default
 steps:
 - name: build
   image: golang
+  volumes:
+    - name: gopath
+      path: /gopath
   commands:
   - go env -w GOPROXY=https://goproxy.cn,direct
   - export CGO_ENABLED=0
@@ -41,3 +44,6 @@ volumes:
   - name: hosts
     host:
       path: /etc/hosts
+  - name: gopath
+    host:
+      path: /root/gopath
