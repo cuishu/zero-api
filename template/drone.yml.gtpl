@@ -9,6 +9,7 @@ steps:
     - name: gopath
       path: /gopath
   commands:
+  - export GOPATH=/gopath
   - go env -w GOPROXY=https://goproxy.cn,direct
   - export CGO_ENABLED=0
   - go build -tags netgo
