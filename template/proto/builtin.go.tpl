@@ -115,7 +115,7 @@ func (phone Phone) E164() string {
 type Time time.Time
 
 func (t Time) MarshalJSON() ([]byte, error) {
-	return []byte(time.Time(t).Format("2006-01-02 15:04:05")), nil
+	return []byte(time.Time(t).Format(`"2006-01-02 15:04:05"`)), nil
 }
 
 func (t *Time) UnmarshalJSON(data []byte) error {
