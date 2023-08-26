@@ -11,6 +11,7 @@ import (
 	"net/textproto"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/nyaruka/phonenumbers"
 )
@@ -109,4 +110,23 @@ func (phone *Phone) UnmarshalJSON(data []byte) error {
 func (phone Phone) E164() string {
 	num, _ := phonenumbers.Parse(phone.Number, phone.Regin)
 	return phonenumbers.Format(num, phonenumbers.E164)
+}
+
+type Time time.Time
+
+func (t Time) MarshalJSON() ([]byte, error) {
+	return []byte(time.Time(t).Format("2006-01-02 15:04:05")), nil
+}
+
+func (t *Time) UnmarshalJSON(data []byte) error {
+	tt, err := time.Parse("2006-01-02 15:04:05", strings.Trim(string(data), `"`))
+	if err != nil {
+		return err
+	}
+	*t = Time(tt)
+	return nil
+}
+
+func (t *Time) Set(tt time.Time) {
+	*t = Time(tt)
 }
