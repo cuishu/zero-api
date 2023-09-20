@@ -1,6 +1,8 @@
 package svc
 
-import (
+import 
+(
+	"github.com/go-redis/redis/v8"
 	"{{.Package.Name}}/config"
 
 	"go.uber.org/zap"
@@ -9,6 +11,7 @@ import (
 type Svc struct {
 	Config *config.Config
 	Logger *zap.SugaredLogger
+	Redis  *redis.Client
 }
 
 func newLogger() *zap.SugaredLogger {

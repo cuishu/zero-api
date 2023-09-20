@@ -11,9 +11,9 @@ type Etcd struct {
 }
 
 type Config struct {
-	PubKey string      `yaml:"pubkey"`
-	Listen string      `yaml:"listen"`
-	Etcd   Etcd        `yaml:"etcd"`
+	PublicKey string      `yaml:"pubkey"`
+	Listen    string      `yaml:"listen"`
+	Etcd      Etcd        `yaml:"etcd"`
 }
 
 func NewConfig(filename string) (*Config, error) {

@@ -3,6 +3,7 @@ package router
 import (
 {{if .ContainsValidToken}}
 	"context"
+	"github.com/go-redis/redis/v8"
 	"gitlab.qingyuantop.top/financial_freedom_league/validtoken"{{end}}
 	"{{.Package.Name}}/svc"
 	"github.com/gin-gonic/gin"
