@@ -14,7 +14,16 @@ import (
 	"time"
 
 	"github.com/nyaruka/phonenumbers"
+	"github.com/shopspring/decimal"
 )
+
+type Decimal struct { 
+	decimal.Decimal
+}
+
+func (d *Decimal) Set(v decimal.Decimal) {
+	*d = Decimal{v}
+}
 
 type Error struct {
 	Code int

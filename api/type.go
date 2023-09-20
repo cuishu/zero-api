@@ -46,6 +46,9 @@ func memberToField(member ast.Field) (Field, bool) {
 	case "time":
 		t = "Time"
 		isBuiltinType = true
+	case "decimal":
+		t = "Decimal"
+		isBuiltinType = true
 	}
 	return Field{
 		Name:          member.Name,
