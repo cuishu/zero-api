@@ -9,3 +9,10 @@ redis:
   host: 127.0.0.1:6379
   db: 1
   password:
+
+postgres:
+  host: 127.0.0.1
+  port: 5432
+  user: admin
+  password: admin
+  dbname: db
