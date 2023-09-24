@@ -30,12 +30,9 @@ func NewPostgres(conf *config.Postgres) *gorm.DB {
     return db
 }
 
-func InitPostgresWithCache(conf *config.Postgres, redisClient *redis.Client) (*gorm.DB, error) {
-	db, err := InitPostgres(conf)
-	if err != nil {
-		return nil, err
-	}
-	cache, _ := cache.NewGorm2Cache(&cacheConfig.CacheConfig{
+func NewPostgresWithCache(conf *config.Postgres, redisClient *redis.Client) *gorm.DB {
+	db := NewPostgres(conf)
+	cache, err := cache.NewGorm2Cache(&cacheConfig.CacheConfig{
 		CacheLevel:           cacheConfig.CacheLevelAll,
 		CacheStorage:         cacheConfig.CacheStorageRedis,
 		RedisConfig:          cache.NewRedisConfigWithClient(redisClient),
@@ -44,6 +41,9 @@ func InitPostgresWithCache(conf *config.Postgres, redisClient *redis.Client) (*g
 		CacheMaxItemCnt:      50,   // if length of objects retrieved one single time
 		// exceeds this number, then don't cache
 	})
+	if err != nil {
+		panic(err)
+	}
 	db.Use(cache)
-	return db, nil
+	return db
 }

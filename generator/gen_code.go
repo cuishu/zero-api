@@ -77,6 +77,15 @@ func genSvc(spec *api.Spec) {
 	genFile("svc/svc.go", spec.Template.Svc, spec)
 }
 
+
+func genPostgres(spec *api.Spec) {
+	genFile("svc/postgres.go", spec.Template.Postgres, spec)
+}
+
+func genRedis(spec *api.Spec) {
+	genFile("svc/redis.go", spec.Template.Redis, spec)
+}
+
 func genGitignore(spec *api.Spec) {
 	genFile(".gitignore", spec.Template.Gitignore, spec)
 }
@@ -120,6 +129,8 @@ func GenerateCode(spec *api.Spec) {
 	genMiddleware(spec)
 	genRouter(spec)
 	genSvc(spec)
+	genPostgres(spec)
+	genRedis(spec)
 	genGitignore(spec)
 	genMain(spec)
 	genBuildSH(spec)

@@ -27,6 +27,10 @@ var (
 	middlewareTmpl string
 	//go:embed template/svc/svc.go.tpl
 	svcTmpl string
+	//go:embed template/svc/postgres.go.tpl
+	postgresTmpl string
+	//go:embed template/svc/redis.go.tpl
+	redisTmpl string
 	//go:embed template/main.go.tpl
 	mainTmpl string
 	//go:embed template/gitignore.gtpl
@@ -111,6 +115,8 @@ func main() {
 	apiSpec.Template.Router = routerTmpl
 	apiSpec.Template.Middleware = middlewareTmpl
 	apiSpec.Template.Svc = svcTmpl
+	apiSpec.Template.Postgres = postgresTmpl
+	apiSpec.Template.Redis = redisTmpl
 	apiSpec.Template.Main = mainTmpl
 	apiSpec.Template.Gitignore = gitignoreTmpl
 	apiSpec.Template.BuildSH = buildSHTmpl

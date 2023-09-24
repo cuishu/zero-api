@@ -12,6 +12,7 @@ type Svc struct {
 	Config *config.Config
 	Logger *zap.SugaredLogger
 	Redis  *redis.Client
+	DB     *gorm.DB
 }
 
 func newLogger() *zap.SugaredLogger {

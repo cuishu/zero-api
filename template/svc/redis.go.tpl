@@ -5,10 +5,10 @@ import (
 	"fmt"
 
 	"github.com/go-redis/redis/v8"
-	"qingyuantop.top/account/config"
+	"{{.Package.Name}}/config"
 )
 
-func NewRedis(conf *config.RedisConfig) *redis.Client {
+func NewRedis(conf *config.Redis) *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     conf.Host,
 		Password: conf.Password,

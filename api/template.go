@@ -7,6 +7,8 @@ type Template struct {
 	Router     string
 	Middleware string
 	Svc        string
+	Postgres   string
+	Redis      string
 	Main       string
 	Gitignore  string
 	BuildSH    string
