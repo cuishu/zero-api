@@ -77,7 +77,6 @@ func genSvc(spec *api.Spec) {
 	genFile("svc/svc.go", spec.Template.Svc, spec)
 }
 
-
 func genPostgres(spec *api.Spec) {
 	genFile("svc/postgres.go", spec.Template.Postgres, spec)
 }
@@ -122,6 +121,10 @@ func genDrone(spec *api.Spec) {
 	genFile(".drone.yml", spec.Template.Drone, spec)
 }
 
+func genLogger(spec *api.Spec) {
+	genFile("router/logger.go", spec.Template.Logger, spec)
+}
+
 func GenerateCode(spec *api.Spec) {
 	GenerateProto(spec)
 	genConfig(spec)
@@ -140,6 +143,7 @@ func GenerateCode(spec *api.Spec) {
 	genSession(spec)
 	genApiDoc(spec)
 	genDrone(spec)
+	genLogger(spec)
 
 	cmd := exec.Command("go", "mod", "tidy")
 	cmd.Stdin = os.Stdin

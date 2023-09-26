@@ -76,6 +76,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 			Svc: svctx,
 			Ctx: context.Background(),{{if .ValidToken}}
 			UserID: ctx.GetInt64("user_id"),{{end}}
+			TraceID: ctx.GetString("traceid"),
 		}, &input)
 		if err != nil {
 			if e, ok := err.(proto.Error); ok {

@@ -15,13 +15,22 @@ func hasKey(redisClient *redis.Client) validtoken.HasKeyFunc {
 	}
 }
 {{end}}
-func logger(svc *svc.Svc) gin.HandlerFunc {
+
+func traceid(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		defer svc.Logger.Sync()
+		traceid := ctx.GetHeader("traceid")
+		if traceid == "" {
+			sfid, err := svc.Sonyflake.NextID()
+			if err != nil {
+				return
+			}
+			ctx.Set("traceid", strconv.FormatUint(sfid, 10))
+		}
 		ctx.Next()
 	}
 }
 
 func middleware(svc *svc.Svc, r *gin.Engine) {
+	r.Use(traceid(svc))
 	r.Use(logger(svc))
 }
