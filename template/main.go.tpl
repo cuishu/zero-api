@@ -38,7 +38,12 @@ func main() {
 		panic(err)
 	}
 
-	r := gin.Default()
+	var r *gin.Engine
+	if os.Getenv("GIN_MODE") == "release" {
+		r = gin.New()
+	} else {
+		r = gin.Default()
+	}
 	router.RegisterRouter(r, svc.NewSvc(config))
 	r.Run(config.Listen)
 }
