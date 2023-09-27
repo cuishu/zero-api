@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/textproto"
 	"strconv"
@@ -69,7 +68,7 @@ func (f *File) FromReader(reader io.Reader, contentType string) {
 type ID int64
 
 func (id ID) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%d"`, id)), nil
+	return []byte(`"` + strconv.FormatInt(int64(id), 10) + `"`, ), nil
 }
 
 func (id *ID) UnmarshalJSON(data []byte) error {
@@ -81,7 +80,7 @@ func (id *ID) UnmarshalJSON(data []byte) error {
 type UID uint64
 
 func (uid UID) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%d"`, uid)), nil
+	return []byte(`"` + strconv.FormatUint(uint64(uid), 10) + `"`, ), nil
 }
 
 func (uid *UID) UnmarshalJSON(data []byte) error {
@@ -94,6 +93,8 @@ type Phone struct {
 	Regin  string `json:"regin"`
 	Number string `json:"number"`
 }
+
+var ErrInvalidPhoneNumber = errors.New("invalid phone number")
 
 func (phone *Phone) UnmarshalJSON(data []byte) error {
 	var v struct {
@@ -109,7 +110,7 @@ func (phone *Phone) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	if !phonenumbers.IsValidNumberForRegion(num, v.Regin) {
-		return errors.New("invalid phone number")
+		return ErrInvalidPhoneNumber
 	}
 	phone.Regin = v.Regin
 	phone.Number = phonenumbers.Format(num, phonenumbers.INTERNATIONAL)

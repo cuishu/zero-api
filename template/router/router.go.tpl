@@ -18,19 +18,31 @@ import (
 
 const ApiVersion string = "{{.Info.Version}}"
 
-func Fail(err error) gin.H {
-	return gin.H{
-		"fail": true,
-		"msg":  err.Error(),
-		"v": ApiVersion,
+type failData struct {
+	Fail    bool   `json:"fail"`
+	Mesg    string `json:"msg"`
+	Version string `json:"v"`
+}
+
+func Fail(err error) failData {
+	return failData{
+		Fail:    true,
+		Mesg:    err.Error(),
+		Version: ApiVersion,
 	}
 }
 
-func Success(data any) gin.H {
-	return gin.H{
-		"fail": false,
-		"data": data,
-		"v": ApiVersion,
+type successData struct {
+	Fail    bool   `json:"fail"`
+	Data    any    `json:"data"`
+	Version string `json:"v"`
+}
+
+func Success(data any) successData {
+	return successData{
+		Fail:    false,
+		Data:    data,
+		Version: ApiVersion,
 	}
 }
 
