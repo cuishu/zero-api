@@ -3,6 +3,7 @@ package svc
 import 
 (
 	"github.com/go-redis/redis/v8"
+	"gorm.io/gorm"
 	"{{.Package.Name}}/config"
 
 	"go.uber.org/zap"
