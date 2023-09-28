@@ -5,6 +5,7 @@ import (
 	"context"
 	"github.com/go-redis/redis/v8"
 	"gitlab.qingyuantop.top/financial_freedom_league/validtoken"{{end}}
+	"gitlab.qingyuantop.top/financial_freedom_league/traceid"
 	"{{.Package.Name}}/svc"
 	"github.com/gin-gonic/gin"
 )
@@ -16,21 +17,19 @@ func hasKey(redisClient *redis.Client) validtoken.HasKeyFunc {
 }
 {{end}}
 
-func traceid(svc *svc.Svc) gin.HandlerFunc {
+func injectTraceID(svc *svc.Svc) gin.HandlerFunc {
+	generator := traceid.NewGenerator()
 	return func(ctx *gin.Context) {
 		traceid := ctx.GetHeader("traceid")
 		if traceid == "" {
-			sfid, err := svc.Sonyflake.NextID()
-			if err != nil {
-				return
-			}
-			ctx.Set("traceid", strconv.FormatUint(sfid, 10))
+			traceid = generator.GenTraceID()
 		}
+		ctx.Set("traceid", traceid)
 		ctx.Next()
 	}
 }
 
 func middleware(svc *svc.Svc, r *gin.Engine) {
-	r.Use(traceid(svc))
+	r.Use(injectTraceID(svc))
 	r.Use(logger(svc))
 }
