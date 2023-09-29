@@ -11,6 +11,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	_ "go.uber.org/automaxprocs"
 )
 
 const ApiVersion string = "{{.Info.Version}}"

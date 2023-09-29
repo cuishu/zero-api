@@ -25,7 +25,7 @@ type Postgres struct {
 }
 
 type Config struct {
-	PublicKey string   `yaml:"pubkey"`
+	PublicKey string   `yaml:"public_key"`
 	Listen    string   `yaml:"listen"`
 	Etcd      Etcd     `yaml:"etcd"`
 	Redis     Redis    `yaml:"redis"`

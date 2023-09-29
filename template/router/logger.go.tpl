@@ -4,6 +4,7 @@ import (
 	"io"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"{{.Package.Name}}/svc"
@@ -21,6 +22,7 @@ type BodyLogger struct {
 	body            string
 	resp            string
 	respContentType string
+	deltaT          time.Duration
 }
 
 var loggerPool = sync.Pool{
@@ -77,17 +79,19 @@ func (logger *BodyLogger) Info() {
 		"body", logger.resp,
 		"status", logger.ctx.Writer.Status(),
 		"Content-Type", logger.respContentType,
-		"traceid", logger.ctx.GetString("traceid"))
-	logger.body = ""
+		"traceid", logger.ctx.GetString("traceid"),
+		"t", logger.deltaT)
 }
 
 func logger(svc *svc.Svc) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		defer svc.Logger.Sync()
+		startTime := time.Now()
 		bodyLogger := NewBodyLogger(ctx, svc.Logger)
 		ctx.Request.Body = bodyLogger
 		ctx.Writer = bodyLogger
 		ctx.Next()
+		bodyLogger.deltaT = time.Since(startTime)
 		bodyLogger.Info()
 		loggerPool.Put(bodyLogger)
 	}

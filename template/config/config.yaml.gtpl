@@ -1,4 +1,4 @@
-pubkey:
+public_key:
 listen: 0.0.0.0:5678
 etcd:
   hosts:
