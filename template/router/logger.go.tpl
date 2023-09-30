@@ -80,7 +80,7 @@ func (logger *BodyLogger) Info() {
 		"status", logger.ctx.Writer.Status(),
 		"Content-Type", logger.respContentType,
 		"traceid", logger.ctx.GetString("traceid"),
-		"t", logger.deltaT)
+		"t", logger.deltaT.String())
 }
 
 func logger(svc *svc.Svc) gin.HandlerFunc {
