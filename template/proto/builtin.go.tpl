@@ -68,7 +68,7 @@ func (f *File) FromReader(reader io.Reader, contentType string) {
 type ID int64
 
 func (id ID) MarshalJSON() ([]byte, error) {
-	return []byte(`"` + strconv.FormatInt(int64(id), 10) + `"`, ), nil
+	return []byte(`"` + id.String() + `"`, ), nil
 }
 
 func (id *ID) UnmarshalJSON(data []byte) error {
@@ -77,16 +77,24 @@ func (id *ID) UnmarshalJSON(data []byte) error {
 	return err
 }
 
+func (id ID) String() (string) {
+	return strconv.FormatInt(int64(id), 10)
+}
+
 type UID uint64
 
 func (uid UID) MarshalJSON() ([]byte, error) {
-	return []byte(`"` + strconv.FormatUint(uint64(uid), 10) + `"`, ), nil
+	return []byte(`"` + uid.String() + `"`, ), nil
 }
 
 func (uid *UID) UnmarshalJSON(data []byte) error {
 	n, err := strconv.ParseUint(strings.Trim(string(data), `"`), 10, 64)
 	*uid = UID(n)
 	return err
+}
+
+func (uid UID) String() (string) {
+	return strconv.FormatUint(uint64(uid), 10)
 }
 
 type Phone struct {
