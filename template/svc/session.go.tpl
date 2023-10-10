@@ -8,7 +8,19 @@ import (
 
 type Session struct {
 	Svc
-	Ctx     context.Context
+	context.Context
 	UserID  int64
 	TraceID string
+}
+
+func (sess *Session)TraceId() string {
+	return sess.TraceID
+}
+
+func (sess *Session)SpanId() string {
+	return ""
+}
+
+func (sess *Session)Visit(fn func(key, val string) bool) {
+	
 }

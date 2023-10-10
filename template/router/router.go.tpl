@@ -86,7 +86,7 @@ func RegisterRouter(r *gin.Engine, svctx svc.Svc) {
 		{{end}}
 		resp, err := logic.{{.FuncName}}(&svc.Session{
 			Svc: svctx,
-			Ctx: context.Background(),{{if .ValidToken}}
+			Context: context.Background(),{{if .ValidToken}}
 			UserID: ctx.GetInt64("user_id"),{{end}}
 			TraceID: ctx.GetString("traceid"),
 		}, &input)
