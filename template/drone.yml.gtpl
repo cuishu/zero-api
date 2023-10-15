@@ -8,6 +8,11 @@ steps:
   volumes:
     - name: gopath
       path: /gopath
+  environment:
+    USRNAME:
+      from_secret: username
+    PASSWD:
+      from_secret: password
   commands:
   - export GOPATH=/gopath
   - echo "machine gitlab.qingyuantop.top login $USRNAME password $PASSWD" > ~/.netrc
