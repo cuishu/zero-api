@@ -74,6 +74,7 @@ func (logger *BodyLogger) Info() {
 		"method", logger.ctx.Request.Method,
 		"Content-Type", logger.ctx.ContentType(),
 		"remote_ip", logger.ctx.RemoteIP(),
+		"userid", logger.ctx.GetInt64("user_id"),
 		"traceid", logger.ctx.GetString("traceid"))
 	logger.l.Infow("response",
 		"body", logger.resp,
