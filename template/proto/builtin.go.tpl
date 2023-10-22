@@ -56,13 +56,18 @@ func (f *File) Close() error {
 	return f.File.Close()
 }
 
+func (f *File) From(readCloser io.ReadCloser, contentType string) {
+	f.File = readCloser
+	f.ContentType = contentType
+}
+
 func (f *File) FromBytes(data []byte, contentType string) {
 	f.FromReader(bytes.NewReader(data), contentType)
 }
 
 func (f *File) FromReader(reader io.Reader, contentType string) {
-	f.File = io.NopCloser(reader)
-	f.ContentType = contentType
+	readCloser := io.NopCloser(reader)
+	f.From(readCloser,  contentType)
 }
 
 type ID int64

@@ -20,4 +20,5 @@ type Template struct {
 	DocAPI     string
 	Drone      string
 	Logger     string
+	Client     string
 }

@@ -1,6 +1,8 @@
 package api
 
 import (
+	"strings"
+
 	"github.com/cuishu/zero-api/ast"
 )
 
@@ -12,6 +14,7 @@ var (
 type Field struct {
 	Name          string
 	Tag           string
+	TagName       string
 	Type          string
 	IsFile        bool
 	IsBuiltinType bool
@@ -24,6 +27,21 @@ type Type struct {
 	Fields    []Field
 	Documents string
 	HasFile   bool
+}
+
+func (field *Field) setTagName() {
+	field.TagName = field.Name
+	tags := strings.Split(strings.Trim(field.Tag, "`"), " ")
+	if len(tags) == 0 {
+		return
+	}
+	for _, tag := range tags {
+		slice := strings.Split(tag, ":")
+		switch slice[0] {
+		case "json", "form":
+			field.TagName = strings.Trim(slice[1], `"`)
+		}
+	}
 }
 
 func memberToField(member ast.Field) (Field, bool) {
@@ -66,6 +84,7 @@ func convertSpecType(item ast.Type) Type {
 	t.Documents = item.Comment
 	for _, member := range item.Fields {
 		field, isFile := memberToField(member)
+		field.setTagName()
 		t.Fields = append(t.Fields, field)
 		if isFile {
 			t.HasFile = true

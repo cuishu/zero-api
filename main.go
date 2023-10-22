@@ -53,6 +53,8 @@ var (
 	builtinTmpl string
 	//go:embed template/router/logger.go.tpl
 	loggerTmpl string
+	//go:embed template/proto/client.go.tpl
+	clientTmpl string
 )
 
 var (
@@ -130,6 +132,7 @@ func main() {
 	apiSpec.Template.DocAPI = docAPITmpl
 	apiSpec.Template.Drone = droneTmpl
 	apiSpec.Template.Logger = loggerTmpl
+	apiSpec.Template.Client = clientTmpl
 	mkdirAll()
 	apiSpec.Package.Set(packagename)
 	generator.GenerateCode(&apiSpec)

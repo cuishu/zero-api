@@ -17,10 +17,6 @@ func (sess *Session)TraceId() string {
 	return sess.TraceID
 }
 
-func (sess *Session)SpanId() string {
+func (sess *Session)Token() string {
 	return ""
-}
-
-func (sess *Session)Visit(fn func(key, val string) bool) {
-	
 }
